@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile_alumunium/widgets/custom_textfield.dart';
+import 'package:get/get.dart';
+import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
+import 'package:mobile_alumunium/routes/route_name.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -42,7 +44,9 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Text('Belum punya akun?'),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(RouteName.register);
+                },
                 child: Text(
                   'Daftar sekarang',
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_alumunium/styles/app_colors.dart';
+import 'package:mobile_alumunium/common/theme/app_colors.dart';
 
 class AppTheme {
   static bool isDarkMode(BuildContext context) {
@@ -50,7 +50,8 @@ class AppTheme {
 
   static TextButtonThemeData _buildTextButtonTheme(ThemeData base) {
     return TextButtonThemeData(
-      style: TextButton.styleFrom(textStyle: base.textTheme.titleMedium),
+      style: TextButton.styleFrom(
+          textStyle: base.textTheme.titleMedium, padding: EdgeInsets.zero),
     );
   }
 
