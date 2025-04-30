@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
 
 class AppTheme {
@@ -45,6 +46,7 @@ class AppTheme {
       iconTheme: _buildIconTheme(base),
       textButtonTheme: _buildTextButtonTheme(base),
       inputDecorationTheme: _buildInputDecorationTheme(base),
+      appBarTheme: _buildAppBarTheme(base),
     );
   }
 
@@ -82,6 +84,20 @@ class AppTheme {
         ),
         backgroundColor: base.colorScheme.primary,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      ),
+    );
+  }
+
+  static AppBarTheme _buildAppBarTheme(ThemeData base) {
+    return AppBarTheme(
+      surfaceTintColor: Colors.white,
+      backgroundColor: Colors.white,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.white, // Navigation bar
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
   }

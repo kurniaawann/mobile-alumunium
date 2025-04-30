@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:mobile_alumunium/pages/login_page.dart';
-import 'package:mobile_alumunium/pages/register_page.dart';
+import 'package:mobile_alumunium/pages/authentication_pages/login_page.dart';
+import 'package:mobile_alumunium/pages/authentication_pages/register_page.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 
 class Myroute {
