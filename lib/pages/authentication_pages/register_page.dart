@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
+import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/widgets/custom_error.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
 import 'package:mobile_alumunium/pages/authentication_pages/widgets/auth_welcome.dart';
@@ -80,7 +81,16 @@ class _RegisterPageState extends State<RegisterPage> {
             iconData: Icon(Icons.lock_outline),
           ),
           SizedBox(height: 25),
-          ElevatedButton(onPressed: () {}, child: Text('Daftar')),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text(
+              'Daftar',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.primaryWhiteColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ),
         ],
       ),
     );

@@ -20,83 +20,91 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
-          children: [
-            SvgPicture.asset(
-              '${StringResouce.locationImages}/login.svg',
-              width: 200,
-              height: 200,
-            ),
-            AuthWelcomeCard(
-              icon: Icons.waving_hand,
-              title: 'Selamat Datang Kembali!',
-              message:
-                  'Silakan masuk dengan akun Anda untuk mengakses semua fitur aplikasi Alumunium',
-            ),
+      body: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+        children: [
+          SvgPicture.asset(
+            '${StringResouce.locationImages}/login.svg',
+            width: 200,
+            height: 200,
+          ),
+          AuthWelcomeCard(
+            icon: Icons.waving_hand,
+            title: 'Selamat Datang Kembali!',
+            message:
+                'Silakan masuk dengan akun Anda untuk mengakses semua fitur aplikasi Alumunium',
+          ),
 
-            //Widget error
-            CustomError(messageError: 'Email atau password salah'),
-            SizedBox(height: 20),
+          //Widget error
+          CustomError(messageError: 'Email atau password salah'),
+          SizedBox(height: 20),
 
-            ///Widget error
+          ///Widget error
 
-            CustomTextfield(
-              labelText: 'Email',
-              hintText: 'Masukan email',
-              iconData: FaIcon(
-                FontAwesomeIcons.envelope,
-                size: 20,
-              ),
+          CustomTextfield(
+            labelText: 'Email',
+            hintText: 'Masukan email',
+            iconData: FaIcon(
+              FontAwesomeIcons.envelope,
+              size: 20,
             ),
-            SizedBox(height: 25),
-            CustomTextfield(
-              isPassword: true,
-              labelText: 'Password',
-              hintText: 'Masukan Password',
-              iconData: FaIcon(
-                FontAwesomeIcons.lock,
-                size: 20,
-              ),
+          ),
+          SizedBox(height: 25),
+          CustomTextfield(
+            isPassword: true,
+            labelText: 'Password',
+            hintText: 'Masukan Password',
+            iconData: FaIcon(
+              FontAwesomeIcons.lock,
+              size: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(onPressed: () {}, child: Text('Lupa Password?'))
-              ],
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                'Masuk',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.primaryWhiteColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Belum punya akun?',
-                  style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Get.toNamed(RouteName.forgotPassword);
+                },
+                child: Text(
+                  'Lupa Password?',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
                 ),
-                SizedBox(width: 5),
-                TextButton(
-                  onPressed: () {
-                    Get.toNamed(RouteName.register);
-                  },
-                  child: Text(
-                    'Daftar sekarang',
+              ),
+            ],
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text(
+              'Masuk',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.primaryWhiteColor,
+                    fontWeight: FontWeight.w600,
                   ),
-                )
-              ],
-            )
-          ],
-        ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Belum punya akun?',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              SizedBox(width: 5),
+              TextButton(
+                onPressed: () {
+                  Get.toNamed(RouteName.register);
+                },
+                child: Text(
+                  'Daftar sekarang',
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }

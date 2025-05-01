@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
+import 'package:mobile_alumunium/pages/authentication_pages/change_password_page.dart';
+import 'package:mobile_alumunium/pages/authentication_pages/forgot_password_page.dart';
 import 'package:mobile_alumunium/pages/authentication_pages/login_page.dart';
+import 'package:mobile_alumunium/pages/authentication_pages/otp_textfield_page.dart';
 import 'package:mobile_alumunium/pages/authentication_pages/register_page.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 
@@ -7,6 +10,14 @@ class Myroute {
   static final pages = [
     GetPage(name: RouteName.login, page: () => const LoginPage()),
     GetPage(name: RouteName.register, page: () => const RegisterPage()),
+    GetPage(
+        name: RouteName.forgotPassword, page: () => const ForgotPasswordPage()),
+    GetPage(
+        name: RouteName.forgotPassword, page: () => const ForgotPasswordPage()),
+    GetPage(name: RouteName.otp, page: () => const OtpTextfieldPage()),
+    GetPage(
+        name: RouteName.changePassword, page: () => const ChangePasswordPage()),
+
     // GetPage(name: RouteName.homePage, page: () => HomePage()),
     // GetPage(name: RouteName.detailInformasi, page: () => DetailInformasi()),
     // GetPage(name: RouteName.customerReview, page: () => const CustomerReview()),
