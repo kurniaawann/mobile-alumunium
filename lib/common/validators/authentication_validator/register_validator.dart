@@ -17,7 +17,7 @@ class RegisterValidator {
             r'^[a-zA-Z0-9._%+-]+(?<!\.)@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$')
         .hasMatch(value)) {
       return 'Email yang anda masukkan tidak valid';
-    } else if (message.toLowerCase().contains('email sudah terdaftar')) {
+    } else if (message.toLowerCase().contains('email sudah digunakan')) {
       return 'Email sudah terdaftar';
     }
     return null;
@@ -28,10 +28,21 @@ class RegisterValidator {
       return 'Harap masukkan nomor handphone ';
     } else if (!RegExp(r'^08[0-9]{8,11}$').hasMatch(value)) {
       return 'Nomor handphone anda tidak sesuai';
-    } else if (message.toLowerCase().contains('no handphone sudah terdaftar')) {
-      return 'Nomor handphone sudah terdaftar';
+    } else if (message.toLowerCase().contains('no handphone sudah digunakan')) {
+      return 'No handphone sudah digunakan';
     }
 
+    return null;
+  }
+
+  static String? validateAddress(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Harap masukkan alamat ';
+    } else if (value.length < 5) {
+      return 'Alamat tidak boleh kurang dari 5 karakter';
+    } else if (value.length > 255) {
+      return 'Alamat tidak boleh lebih dari 255 karakter';
+    }
     return null;
   }
 

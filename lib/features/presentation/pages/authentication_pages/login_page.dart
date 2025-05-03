@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/validators/authentication_validator/login_validator.dart';
+import 'package:mobile_alumunium/common/widgets/custom_loading.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/login_getx.dart';
@@ -102,32 +104,39 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-          ElevatedButton(
-            onPressed: () async {
-              bool allValid =
-                  _formKeys.every((key) => key.currentState!.validate());
-
-              if (allValid) {
-                bool loginValid = await loginController.login(
-                  LoginRequestModel(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  ),
-                  context,
-                );
-                if (!loginValid) {
-                  allValid =
-                      _formKeys.every((key) => key.currentState!.validate());
-                }
+          Obx(
+            () {
+              if (loginController.state == RequestState.loading) {
+                return Center(child: CustomLoading());
               }
+              return ElevatedButton(
+                onPressed: () async {
+                  bool allValid =
+                      _formKeys.every((key) => key.currentState!.validate());
+
+                  if (allValid) {
+                    bool loginValid = await loginController.login(
+                      LoginRequestModel(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      ),
+                      context,
+                    );
+                    if (!loginValid) {
+                      allValid = _formKeys
+                          .every((key) => key.currentState!.validate());
+                    }
+                  }
+                },
+                child: Text(
+                  'Masuk',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.primaryWhiteColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              );
             },
-            child: Text(
-              'Masuk',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.primaryWhiteColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

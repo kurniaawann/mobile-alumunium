@@ -4,7 +4,9 @@ import 'package:mobile_alumunium/features/data/datasources/authentication/authen
 import 'package:mobile_alumunium/features/data/repositories/authentication/authentication_repository_impl.dart';
 import 'package:mobile_alumunium/features/domain/repositories/authentication/authentication_repository.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/login.dart';
+import 'package:mobile_alumunium/features/domain/usecase/authentication/register.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/login_getx.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/register_getx.dart';
 import 'package:mobile_alumunium/managers/dio_loging_inceptors.dart';
 import 'package:mobile_alumunium/managers/managers.dart';
 import 'package:mobile_alumunium/managers/network_info.dart';
@@ -61,8 +63,17 @@ Future<void> initDependencyInjection() async {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton(
+    () => RegisterUseCase(
+      serviceLocator(),
+    ),
+  );
 
+  //! Controllers
   serviceLocator.registerLazySingleton(
     () => LoginController(loginUseCase: serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton(
+    () => RegisterController(registerUseCase: serviceLocator()),
   );
 }

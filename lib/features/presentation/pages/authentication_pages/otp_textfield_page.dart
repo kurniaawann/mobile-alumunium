@@ -5,6 +5,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
+import 'package:mobile_alumunium/common/widgets/custom_leading_appbar.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 
 class OtpTextfieldPage extends StatefulWidget {
@@ -15,6 +16,8 @@ class OtpTextfieldPage extends StatefulWidget {
 }
 
 class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
+  String? email;
+
   Timer? _timer;
   int _resendCooldown = 60; // Cooldown awal 60 detik
   bool _canResend = false;
@@ -25,6 +28,7 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
 
   @override
   void initState() {
+    email = Get.arguments as String?;
     super.initState();
     _startResendTimer();
   }
@@ -166,6 +170,8 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
           'Verifikasi OTP',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
+        leading: CustomLeadingAppbar(
+            onPressed: () => Get.offAllNamed(RouteName.login)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -194,10 +200,6 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
 
               Text(
                 "Kami telah mengirimkan kode verifikasi ke nomor Anda. Masukkan kode tersebut di bawah ini.",
-                // style: TextStyle(
-                //   fontSize: 16,
-                //   color: Color(0xFF757575),
-                // ),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.normal,
                     ),
@@ -233,7 +235,6 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
 
               const SizedBox(height: 30),
 
-// Resend OTP option
               _buildResendOption(),
               SizedBox(height: 30),
               SizedBox(
