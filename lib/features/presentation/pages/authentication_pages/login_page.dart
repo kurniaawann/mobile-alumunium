@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
-import 'package:mobile_alumunium/common/widgets/custom_error.dart';
+import 'package:mobile_alumunium/common/validators/authentication_validator/login_validator.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/login_getx.dart';
@@ -36,6 +36,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final loginController = serviceLocator<LoginController>();
 
@@ -55,18 +62,12 @@ class _LoginPageState extends State<LoginPage> {
             message:
                 'Silakan masuk dengan akun Anda untuk mengakses semua fitur aplikasi Alumunium',
           ),
-
-          //Widget error
-          CustomError(messageError: 'Email atau password salah'),
-          SizedBox(height: 20),
-
-          ///Widget error
-
           CustomTextfield(
             textEditingController: _emailController,
             formKey: _formKeys[0],
             labelText: 'Email',
             hintText: 'Masukan email',
+            validator: (value) => LoginValidator.validateEmail(value),
             iconData: FaIcon(
               FontAwesomeIcons.envelope,
               size: 20,
@@ -79,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
             isPassword: true,
             labelText: 'Password',
             hintText: 'Masukan Password',
+            validator: (value) => LoginValidator.validatePassword(value),
             iconData: FaIcon(
               FontAwesomeIcons.lock,
               size: 20,
@@ -101,13 +103,23 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
           ElevatedButton(
-            onPressed: () {
-              loginController.login(
-                LoginRequestModel(
-                  email: _emailController.text,
-                  password: _passwordController.text,
-                ),
-              );
+            onPressed: () async {
+              bool allValid =
+                  _formKeys.every((key) => key.currentState!.validate());
+
+              if (allValid) {
+                bool loginValid = await loginController.login(
+                  LoginRequestModel(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  ),
+                  context,
+                );
+                if (!loginValid) {
+                  allValid =
+                      _formKeys.every((key) => key.currentState!.validate());
+                }
+              }
             },
             child: Text(
               'Masuk',

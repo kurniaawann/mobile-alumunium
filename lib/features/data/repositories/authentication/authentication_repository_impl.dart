@@ -6,6 +6,7 @@ import 'package:mobile_alumunium/features/data/datasources/authentication/authen
 import 'package:mobile_alumunium/features/data/models/authentication/login_model.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
 import 'package:mobile_alumunium/features/domain/repositories/authentication/authentication_repository.dart';
+import 'package:mobile_alumunium/managers/helper.dart';
 import 'package:mobile_alumunium/managers/network_info.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -24,6 +25,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     if (await networkInfo.isConnected) {
       try {
         loginResponse = await remoteDataSource.login(param);
+        printError(loginResponse);
         return Right(loginResponse);
       } on BadRequestException catch (e) {
         return Left(BadRequestFailure(e.toString()));

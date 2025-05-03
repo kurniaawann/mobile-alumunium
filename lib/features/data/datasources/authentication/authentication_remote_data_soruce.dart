@@ -1,7 +1,6 @@
 import 'package:mobile_alumunium/exceptions/app_exceptions.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/login_model.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
-import 'package:mobile_alumunium/managers/helper.dart';
 import 'package:mobile_alumunium/managers/managers.dart';
 
 abstract class AuthenticationRemoteDataSoruce {
@@ -17,15 +16,15 @@ class AuthenticationRemoteDataSoruceImpl
   final HttpManager httpManager;
   @override
   Future<LoginResponse> login(LoginRequestModel loginRequestModel) async {
-    printError(loginRequestModel.toJson());
+    (loginRequestModel.toJson());
     final response = await httpManager.post(url: 'authentication/login', data: {
       "email": loginRequestModel.email,
       "password": loginRequestModel.password,
     });
-    printError(response.data);
-    printError(response.statusCode);
+    (response.data);
+    (response.statusCode);
     if (response.statusCode == 200) {
-      printError(response.data);
+      (response.data);
       return LoginResponse.fromJson(response.data);
     } else {
       throw ServerException();
