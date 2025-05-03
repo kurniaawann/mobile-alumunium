@@ -6,7 +6,9 @@ import 'package:mobile_alumunium/features/data/datasources/authentication/authen
 import 'package:mobile_alumunium/features/data/models/authentication/login_model.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/register_request.dart';
+import 'package:mobile_alumunium/features/data/models/authentication/user_verification_request.dart';
 import 'package:mobile_alumunium/features/domain/repositories/authentication/authentication_repository.dart';
+import 'package:mobile_alumunium/managers/helper.dart';
 import 'package:mobile_alumunium/managers/network_info.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -50,10 +52,41 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, void>> register(RegisterRequestModel param) async {
+  Future<Either<Failure, Unit>> register(RegisterRequestModel param) async {
     if (await networkInfo.isConnected) {
       try {
         await remoteDataSource.register(param);
+        printErrorDebug('register success impl');
+        return Right(unit);
+      } on BadRequestException catch (e) {
+        return Left(BadRequestFailure(e.toString()));
+      } on UnauthorisedException catch (e) {
+        return Left(UnauthorisedFailure(e.toString()));
+      } on NotFoundException catch (e) {
+        return Left(NotFoundFailure(e.toString()));
+      } on FetchDataException catch (e) {
+        return Left(ServerFailure(e.message ?? ''));
+      } on InvalidCredentialException catch (e) {
+        return Left(InvalidCredentialFailure(e.toString()));
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message ?? ''));
+      } on NetworkException {
+        return const Left(
+            NetworkFailure(StringResources.networkFailureMessage));
+      } catch (e) {
+        return Left(UnknowFailure(e));
+      }
+    } else {
+      return Left(NetworkFailure(StringResources.networkFailureMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> userVerification(
+      UserVerificationRequest param) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await remoteDataSource.userverification(param);
         return Right(null);
       } on BadRequestException catch (e) {
         return Left(BadRequestFailure(e.toString()));

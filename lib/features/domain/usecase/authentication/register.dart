@@ -6,7 +6,7 @@ import 'package:mobile_alumunium/features/domain/repositories/authentication/aut
 class RegisterUseCase {
   final AuthenticationRepository repository;
   RegisterUseCase(this.repository);
-  Future<Either<Failure, void>> execute(
+  Future<Either<Failure, Unit>> execute(
       RegisterRequestModel registerRequestModel) {
     return repository.register(registerRequestModel);
   }
