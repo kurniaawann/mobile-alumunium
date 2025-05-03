@@ -113,7 +113,7 @@ class CustomDefaultDialog {
         color: color.withOpacity(0.2),
         shape: BoxShape.circle,
       ),
-      child: Icon(iconData, size: 36, color: color),
+      child: Icon(iconData, size: 100, color: color),
     );
   }
 
