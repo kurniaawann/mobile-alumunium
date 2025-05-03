@@ -8,7 +8,7 @@ void printWarning(dynamic text) {
   }
 }
 
-void printError(dynamic text) {
+void printErrorDebug(dynamic text) {
   if (kDebugMode) {
     log('\x1B[31m$text\x1B[0m');
   }
