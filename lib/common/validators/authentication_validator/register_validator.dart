@@ -4,6 +4,8 @@ class RegisterValidator {
       return 'Harap masukan nama lengkap';
     } else if (value.length <= 2) {
       return 'Minimal nama 3 huruf';
+    } else if (value.length > 255) {
+      return 'Nama tidak boleh lebih dari 255 karakter';
     }
     return null;
   }

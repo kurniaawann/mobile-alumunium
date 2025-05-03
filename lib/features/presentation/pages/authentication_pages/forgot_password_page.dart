@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
-import 'package:mobile_alumunium/pages/authentication_pages/widgets/auth_welcome.dart';
+import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 
 class ForgotPasswordPage extends StatefulWidget {

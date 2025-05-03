@@ -7,7 +7,7 @@ import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/validators/authentication_validator/register_validator.dart';
 import 'package:mobile_alumunium/common/widgets/custom_error.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
-import 'package:mobile_alumunium/pages/authentication_pages/widgets/auth_welcome.dart';
+import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
