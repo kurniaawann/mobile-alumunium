@@ -43,7 +43,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
         children: [
           Image.asset(
-            '${StringResouce.locationImages}/reset_password.png',
+            '${StringResources.locationImages}/reset_password.png',
             width: 200,
             height: 200,
           ),

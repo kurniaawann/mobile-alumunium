@@ -5,9 +5,13 @@ import 'package:mobile_alumunium/common/naavigator_key.dart';
 import 'package:mobile_alumunium/common/theme/app_theme.dart';
 import 'package:mobile_alumunium/routes/page_route.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
+import 'package:mobile_alumunium/service_locator.dart';
 
 Future main() async {
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env.dev");
+
+  await initDependencyInjection();
+
   runApp(const MyApp());
 }
 

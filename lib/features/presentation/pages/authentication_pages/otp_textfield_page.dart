@@ -176,7 +176,7 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
               const SizedBox(height: 20),
               // Icon atau Ilustrasi
               Image.asset(
-                '${StringResouce.locationImages}/otp.png',
+                '${StringResources.locationImages}/otp.png',
                 width: 200,
                 height: 200,
               ),

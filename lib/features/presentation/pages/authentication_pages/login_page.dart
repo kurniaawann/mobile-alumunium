@@ -6,8 +6,11 @@ import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/widgets/custom_error.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
+import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/login_getx.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
+import 'package:mobile_alumunium/service_locator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,20 +30,22 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _emailController = TextEditingController(text: 'radenkurni123@gmail.com');
+    _passwordController = TextEditingController(text: 'Bakur12345.');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final loginController = serviceLocator<LoginController>();
+
     return Scaffold(
       body: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
         children: [
           SvgPicture.asset(
-            '${StringResouce.locationImages}/login.svg',
+            '${StringResources.locationImages}/login.svg',
             width: 200,
             height: 200,
           ),
@@ -96,7 +101,14 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              loginController.login(
+                LoginRequestModel(
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                ),
+              );
+            },
             child: Text(
               'Masuk',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(

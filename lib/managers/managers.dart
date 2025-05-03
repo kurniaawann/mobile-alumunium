@@ -8,6 +8,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mobile_alumunium/common/env/env.dart';
 import 'package:mobile_alumunium/exceptions/app_exceptions.dart';
+import 'package:mobile_alumunium/managers/dio_loging_inceptors.dart';
+import 'package:mobile_alumunium/managers/helper.dart';
 
 abstract class HttpManager {
   Future<Response> get({
@@ -51,27 +53,20 @@ abstract class HttpManager {
 }
 
 class AppHttpManager implements HttpManager {
-  // final LoggingInterceptor _loggingInterceptor;
+  final SimpleInterceptor _simpleInterceptor;
   final Dio _dio = Dio();
 
   final String _baseUrl = Env.baseUrl;
   late final Duration _timeout;
   late final Duration _uploadTimeout;
 
-  // AppHttpManager()
-  //     : _loggingInterceptor = LoggingInterceptor(
-  //         authLocal: serviceLocator(),
-  //         onUnauthorized: () {
-  //           final authBloc = serviceLocator<AuthBloc>();
-  //           authBloc.add(const LoggedOut(runPost: false));
-  //         },
-  //       ) {
-  //   _timeout = Duration(seconds: Env().configHttpTimeout!);
-  //   _uploadTimeout = Duration(seconds: Env().configHttpUploadTimeout!);
-
-  //   _dio.options.baseUrl = _baseUrl;
-  //   _dio.interceptors.add(_loggingInterceptor);
-  // }
+  AppHttpManager(this._simpleInterceptor, this._timeout, this._uploadTimeout) {
+    _dio.options.baseUrl = _baseUrl;
+    _dio.interceptors.add(_simpleInterceptor);
+    // _timeout = const Duration(seconds: 0);
+    // _uploadTimeout = const Duration(seconds: 60);
+    printError('time out $_timeout');
+  }
 
   @override
   Future<Response> get({
@@ -208,6 +203,11 @@ class AppHttpManager implements HttpManager {
   }
 
   Response _handleResponse(Response response) {
+    // Debugging: Print response details
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Data: ${response.data}');
+    print('Response Headers: ${response.headers}');
+
     if (response.statusCode != null &&
         response.statusCode! >= 200 &&
         response.statusCode! < 300) {
@@ -231,11 +231,16 @@ class AppHttpManager implements HttpManager {
       throw InvalidCredentialException("Sesi telah habis, harap login kembali");
     }
 
+    printError(response.data);
+    printError(response.statusCode);
+
     switch (response.statusCode) {
       case 400:
         return BadRequestException(
             message.isNotEmpty ? message : "Bad request");
       case 401:
+        return UnauthorisedException(
+            message.isNotEmpty ? message : "Invalid token");
       case 403:
         return UnauthorisedException(
             message.isNotEmpty ? message : "Invalid token");

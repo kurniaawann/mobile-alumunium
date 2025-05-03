@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
         children: [
           Image.asset(
-            '${StringResouce.locationImages}/register.png',
+            '${StringResources.locationImages}/register.png',
             width: 200,
             height: 200,
           ),

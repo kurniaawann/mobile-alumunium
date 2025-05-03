@@ -38,7 +38,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
         children: [
           Image.asset(
-            '${StringResouce.locationImages}/forgot_password.png',
+            '${StringResources.locationImages}/forgot_password.png',
             width: 200,
             height: 200,
           ),

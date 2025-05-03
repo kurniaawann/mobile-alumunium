@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:mobile_alumunium/pages/authentication_pages/change_password_page.dart';
-import 'package:mobile_alumunium/pages/authentication_pages/forgot_password_page.dart';
-import 'package:mobile_alumunium/pages/authentication_pages/login_page.dart';
-import 'package:mobile_alumunium/pages/authentication_pages/otp_textfield_page.dart';
-import 'package:mobile_alumunium/pages/authentication_pages/register_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/change_password_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/forgot_password_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/login_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/otp_textfield_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/register_page.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 
 class Myroute {
