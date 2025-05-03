@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
+import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/utils/custom_snackbar.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/login.dart';
@@ -22,9 +23,8 @@ class LoginController extends GetxController {
 
       final errorMessage = failure.message.toLowerCase();
 
-      if (errorMessage ==
-              'akun anda belum diverifikasi. silakan lakukan verifikasi email' ||
-          errorMessage == 'email atau password salah') {
+      if (errorMessage == StringResources.accountNotVerifiedMessage ||
+          errorMessage == StringResources.wrongEmailOrPasswordMessage) {
         ViewCustomSnackBar.showError(context, failure.message);
       }
 
