@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:mobile_alumunium/common/env/env.dart';
 import 'package:mobile_alumunium/exceptions/app_exceptions.dart';
 import 'package:mobile_alumunium/managers/dio_loging_inceptors.dart';
-import 'package:mobile_alumunium/managers/helper.dart';
 
 abstract class HttpManager {
   Future<Response> get({
@@ -65,7 +64,7 @@ class AppHttpManager implements HttpManager {
     _dio.interceptors.add(_simpleInterceptor);
     // _timeout = const Duration(seconds: 0);
     // _uploadTimeout = const Duration(seconds: 60);
-    printError('time out $_timeout');
+    ('time out $_timeout');
   }
 
   @override
@@ -203,70 +202,109 @@ class AppHttpManager implements HttpManager {
   }
 
   Response _handleResponse(Response response) {
-    // Debugging: Print response details
-    print('Response Status Code: ${response.statusCode}');
-    print('Response Data: ${response.data}');
-    print('Response Headers: ${response.headers}');
-
     if (response.statusCode != null &&
         response.statusCode! >= 200 &&
         response.statusCode! < 300) {
+      // Handle nested data structure
+      if (response.data is Map && response.data.containsKey('data')) {
+        response.data = response.data['data']; // Extract the inner data
+      }
+
       return response;
     }
     throw _parseError(response);
   }
 
   Exception _parseError(Response response) {
-    String message = '';
+    String message = 'Unknown error';
+    dynamic responseData = response.data;
+
     try {
-      message = response.data['message'] ?? '';
-    } catch (_) {
-      if (response.data is String) {
-        message = _removeHtmlTags(response.data);
+      // Coba parsing berbagai format response
+      if (responseData is Map) {
+        message = responseData['message']?.toString() ??
+            responseData['error']?.toString() ??
+            'Unknown server error';
+      } else if (responseData is String) {
+        // Coba parse JSON string
+        try {
+          final parsed = json.decode(responseData);
+          if (parsed is Map) {
+            message = parsed['message']?.toString() ??
+                parsed['error']?.toString() ??
+                _removeHtmlTags(responseData);
+          } else {
+            message = _removeHtmlTags(responseData);
+          }
+        } catch (_) {
+          message = _removeHtmlTags(responseData);
+        }
       }
+    } catch (e) {
+      print('Error parsing error message: $e');
+      message = 'Unknown error (failed to parse)';
     }
 
-    if (message.toUpperCase() == 'INVALID CREDENTIALS' ||
-        message.toUpperCase() == 'MISSING AUTHENTICATION') {
-      throw InvalidCredentialException("Sesi telah habis, harap login kembali");
-    }
+    // Log pesan error yang ditemukan
+    print('Extracted error message: $message');
 
-    printError(response.data);
-    printError(response.statusCode);
+    // Handle pesan error spesifik
+    if (message.toUpperCase().contains('EMAIL') ||
+        message.toUpperCase().contains('PASSWORD')) {
+      return InvalidCredentialException(message);
+    }
 
     switch (response.statusCode) {
       case 400:
-        return BadRequestException(
-            message.isNotEmpty ? message : "Bad request");
+        return BadRequestException(message);
       case 401:
-        return UnauthorisedException(
-            message.isNotEmpty ? message : "Invalid token");
+        return UnauthorisedException(message);
       case 403:
-        return UnauthorisedException(
-            message.isNotEmpty ? message : "Invalid token");
+        return UnauthorisedException(message);
       case 404:
-        return NotFoundException(message.isNotEmpty ? message : "Not found");
+        return NotFoundException(message);
       case 422:
-        return UnauthorisedException(
-            message.isNotEmpty ? message : "Invalid credentials");
+        return UnauthorisedException(message);
       case 406:
-        return NotAcceptableException(
-            message.isNotEmpty ? message : "Not Acceptable");
+        return NotAcceptableException(message);
       case 500:
       default:
-        return FetchDataException(
-            message.isNotEmpty ? message : "Unknown Error");
+        return FetchDataException(message);
     }
   }
 
   Future<Exception> _handleError(dynamic error) async {
     if (error is DioException) {
-      final response = error.response;
-      if (response != null) {
-        return _parseError(response);
+      // Tambahkan logging untuk debugging
+      print('DioError: ${error.type}');
+      print('DioError Message: ${error.message}');
+
+      if (error.response != null) {
+        return _parseError(error.response!);
+      }
+
+      // Handle berbagai tipe DioError
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          return NetworkException();
+        case DioExceptionType.badCertificate:
+          return FetchDataException("Sertifikat SSL tidak valid");
+        case DioExceptionType.badResponse:
+          return FetchDataException("Response tidak valid dari server");
+        case DioExceptionType.cancel:
+          return FetchDataException("Request dibatalkan");
+        case DioExceptionType.connectionError:
+          return NetworkException();
+        case DioExceptionType.unknown:
+          return FetchDataException(error.message ?? "Unknown network error");
       }
     }
-    return FetchDataException("Unknown Error");
+
+    // Jika error bukan DioException
+    print('Non-Dio Error: $error');
+    return FetchDataException("Terjadi kesalahan: ${error.toString()}");
   }
 
   String _removeHtmlTags(String htmlText) {
