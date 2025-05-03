@@ -12,6 +12,24 @@ class ChangePasswordPage extends StatefulWidget {
 }
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
+  final List<GlobalKey<FormState>> _formKeys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+  ];
+
+  late final TextEditingController _oldPasswordController;
+  late final TextEditingController _newPasswordController;
+  late final TextEditingController _confirmPasswordController;
+
+  @override
+  void initState() {
+    _oldPasswordController = TextEditingController();
+    _newPasswordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,21 +52,27 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             message: 'Silakan buat password baru yang lebih kuat.',
             icon: Icons.lock_outlined,
           ),
-          const CustomTextfield(
+          CustomTextfield(
+            textEditingController: _oldPasswordController,
+            formKey: _formKeys[0],
             isPassword: true,
             labelText: 'Password Lama',
             hintText: 'Masukan password lama',
             iconData: Icon(Icons.lock_outline),
           ),
           SizedBox(height: 30),
-          const CustomTextfield(
+          CustomTextfield(
+            textEditingController: _newPasswordController,
+            formKey: _formKeys[1],
             isPassword: true,
             labelText: 'Password Baru',
             hintText: 'Masukan password baru',
             iconData: Icon(Icons.lock_outline),
           ),
           SizedBox(height: 30),
-          const CustomTextfield(
+          CustomTextfield(
+            textEditingController: _confirmPasswordController,
+            formKey: _formKeys[2],
             isPassword: true,
             labelText: 'Konfirmasi Password Baru',
             hintText: 'Masukan password baru',

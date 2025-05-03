@@ -15,6 +15,16 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController _emailController;
+
+  @override
+  void initState() {
+    _emailController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +49,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             icon: Icons.password_outlined,
           ),
           CustomTextfield(
+            textEditingController: _emailController,
+            formKey: _formKey,
             labelText: 'Email',
             hintText: 'Masukan email',
             iconData: FaIcon(

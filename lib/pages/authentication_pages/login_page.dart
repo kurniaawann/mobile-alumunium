@@ -17,6 +17,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final List<GlobalKey<FormState>> _formKeys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+  ];
+
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +58,8 @@ class _LoginPageState extends State<LoginPage> {
           ///Widget error
 
           CustomTextfield(
+            textEditingController: _emailController,
+            formKey: _formKeys[0],
             labelText: 'Email',
             hintText: 'Masukan email',
             iconData: FaIcon(
@@ -52,6 +69,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: 25),
           CustomTextfield(
+            textEditingController: _passwordController,
+            formKey: _formKeys[1],
             isPassword: true,
             labelText: 'Password',
             hintText: 'Masukan Password',

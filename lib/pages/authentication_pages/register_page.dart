@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
+import 'package:mobile_alumunium/common/validators/authentication_validator/register_validator.dart';
 import 'package:mobile_alumunium/common/widgets/custom_error.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
 import 'package:mobile_alumunium/pages/authentication_pages/widgets/auth_welcome.dart';
@@ -15,6 +17,42 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final List<GlobalKey<FormState>> _formKeys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+  ];
+
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _addressController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
+
+  @override
+  void initState() {
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _phoneController = TextEditingController();
+    _addressController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+
+    if (kDebugMode) {
+      _nameController.text = 'Kurniawan';
+      _emailController.text = 'radenkurni123@gmail.com';
+      _phoneController.text = '08123456789';
+      _addressController.text = 'Jl. Raya No. 2';
+      _passwordController.text = 'Kurni12345.';
+      _confirmPasswordController.text = 'Kurni12345.';
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,13 +78,20 @@ class _RegisterPageState extends State<RegisterPage> {
           CustomError(messageError: 'Email atau password salah'),
           SizedBox(height: 20),
           CustomTextfield(
-              labelText: 'Nama',
-              hintText: 'Masukan nama',
-              iconData: Icon(Icons.person_2_outlined)),
+            textEditingController: _nameController,
+            formKey: _formKeys[0],
+            labelText: 'Nama',
+            hintText: 'Masukan nama',
+            validator: (value) => RegisterValidator.validateFullname(value),
+            iconData: Icon(Icons.person_2_outlined),
+          ),
           SizedBox(height: 25),
           CustomTextfield(
+            textEditingController: _emailController,
+            formKey: _formKeys[1],
             labelText: 'Email',
             hintText: 'Masukan email',
+            validator: (value) => RegisterValidator.validateEmail(value, ''),
             iconData: FaIcon(
               FontAwesomeIcons.envelopeOpen,
               size: 20,
@@ -54,6 +99,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 25),
           CustomTextfield(
+            textEditingController: _phoneController,
+            formKey: _formKeys[2],
             labelText: 'No Handphone',
             hintText: 'Masukan nomor handphone',
             iconData: SvgPicture.asset(
@@ -62,12 +109,16 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 25),
           CustomTextfield(
+            textEditingController: _addressController,
+            formKey: _formKeys[3],
             labelText: 'Alamat',
             hintText: 'Masukan alamat',
             iconData: Icon(Icons.location_on_outlined),
           ),
           SizedBox(height: 25),
           CustomTextfield(
+            textEditingController: _passwordController,
+            formKey: _formKeys[4],
             isPassword: true,
             labelText: 'Password',
             hintText: 'Masukan password',
@@ -75,6 +126,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 25),
           CustomTextfield(
+            textEditingController: _confirmPasswordController,
+            formKey: _formKeys[5],
             isPassword: true,
             labelText: 'Konfirmasi Password',
             hintText: 'Masukan Konfirmasi password',
@@ -82,7 +135,9 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: 25),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              _formKeys.every((key) => key.currentState!.validate());
+            },
             child: Text(
               'Daftar',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
