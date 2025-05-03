@@ -12,8 +12,28 @@ class ViewCustomSnackBar {
       Overlay.of(context),
       CustomSnackBar.error(
         iconRotationAngle: 0,
-        messagePadding: EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+        // messagePadding: EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
         backgroundColor: AppColors.errorColor,
+        iconPositionLeft: 2,
+        textAlign: TextAlign.center,
+        message: errorMessage,
+      ),
+    );
+  }
+
+  static void showSuccess(
+    BuildContext context,
+    String errorMessage,
+  ) {
+    showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.success(
+        iconRotationAngle: 0,
+        icon: Icon(
+          Icons.check_circle,
+          color: AppColors.primaryWhiteColor,
+          size: 70,
+        ),
         iconPositionLeft: 2,
         textAlign: TextAlign.center,
         message: errorMessage,
