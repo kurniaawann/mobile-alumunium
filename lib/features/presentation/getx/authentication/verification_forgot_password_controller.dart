@@ -41,9 +41,6 @@ class VerificationForgotPasswordController extends GetxController {
       ).show();
       return false;
     }, (data) async {
-      //! Simpan token ke local storage untuk reset password
-      await TokenStorage.saveTokenResetPassword(data.accessToken);
-
       _state.value = RequestState.success;
       CustomDefaultDialog(
         context: context,
@@ -63,6 +60,9 @@ class VerificationForgotPasswordController extends GetxController {
           style: TextStyle(color: Colors.white),
         ),
       ).show();
+
+      //! Simpan token ke local storage untuk reset password
+      await TokenStorage.saveTokenResetPassword(data.accessToken);
       return true;
     });
   }
