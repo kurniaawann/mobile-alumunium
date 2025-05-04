@@ -37,7 +37,9 @@ class ForgotPasswordController extends GetxController {
 
       return false;
     }, (success) async {
+      //! hapus token reset password
       TokenStorage.clearTokenResetPassword();
+
       CustomDefaultDialog(
         context: context,
         dialogType: DialogType.success,
@@ -51,7 +53,7 @@ class ForgotPasswordController extends GetxController {
           );
         },
         btnOk: Text(
-          'Verifikasi Sekarang',
+          'Masuk',
           style: TextStyle(color: Colors.white),
         ),
       ).show();
