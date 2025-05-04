@@ -5,6 +5,7 @@ import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/utils/custom_snackbar.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/login.dart';
+import 'package:mobile_alumunium/features/presentation/getx/cache_local/cache.dart';
 
 class LoginController extends GetxController {
   final Rx<RequestState> _state = RequestState.empty.obs;
@@ -30,6 +31,7 @@ class LoginController extends GetxController {
 
       return false;
     }, (success) {
+      TokenStorage.saveUserToken(success.accessToken);
       _state.value = RequestState.success;
       ViewCustomSnackBar.showSuccess(context, 'Berhasil Masuk');
       Get.offAllNamed('/main');
