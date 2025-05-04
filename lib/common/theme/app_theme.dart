@@ -19,13 +19,13 @@ class AppTheme {
     // Then create a theme with the text theme applied
     final ThemeData themeWithTextTheme = base.copyWith(
       textTheme: textTheme,
-      colorScheme: ColorScheme.light(
-        primary: AppColors.primaryColor,
-        // onPrimary: AppColors.bgColor,
-        outline: AppColors.primaryDarkColor.withOpacity(0.1),
-        // surface: AppColors.bgColor,
-        onSurface: AppColors.primaryDarkColor,
-      ),
+      // colorScheme: ColorScheme.light(
+      //   primary: AppColors.primaryColor,
+      //   onPrimary: AppColors.bgColor,
+      //   outline: AppColors.primaryDarkColor.withOpacity(0.1),
+      //   surface: AppColors.bgColor,
+      //   onSurface: AppColors.primaryDarkColor,
+      // ),
       primaryColor: AppColors.primaryColor,
       scaffoldBackgroundColor: AppColors.primaryWhiteColor,
       // unselectedWidgetColor: AppColors.unselectedColor,
@@ -41,13 +41,13 @@ class AppTheme {
 
   static ThemeData _buildThemeComponents(ThemeData base) {
     return base.copyWith(
-      elevatedButtonTheme: _buildElevatedButtonTheme(base),
-      filledButtonTheme: _buildFilledButtonTheme(base),
-      iconTheme: _buildIconTheme(base),
-      textButtonTheme: _buildTextButtonTheme(base),
-      inputDecorationTheme: _buildInputDecorationTheme(base),
-      appBarTheme: _buildAppBarTheme(base),
-    );
+        elevatedButtonTheme: _buildElevatedButtonTheme(base),
+        filledButtonTheme: _buildFilledButtonTheme(base),
+        iconTheme: _buildIconTheme(base),
+        textButtonTheme: _buildTextButtonTheme(base),
+        inputDecorationTheme: _buildInputDecorationTheme(base),
+        appBarTheme: _buildAppBarTheme(base),
+        bottomNavigationBarTheme: _bottomNavigationBarTheme(base));
   }
 
   static TextButtonThemeData _buildTextButtonTheme(ThemeData base) {
@@ -99,6 +99,25 @@ class AppTheme {
         systemNavigationBarColor: Colors.white, // Navigation bar
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
+    );
+  }
+
+  static BottomNavigationBarThemeData _bottomNavigationBarTheme(
+      ThemeData base) {
+    return BottomNavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      type: BottomNavigationBarType.fixed,
+      selectedLabelStyle: const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+      ),
+      unselectedLabelStyle: const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      ),
+      selectedItemColor: AppColors.navBarSelectedItem,
+      unselectedItemColor: AppColors.navBarUnselectedItem,
     );
   }
 

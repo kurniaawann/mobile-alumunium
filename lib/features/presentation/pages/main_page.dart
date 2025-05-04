@@ -61,19 +61,6 @@ class _MainPageState extends State<MainPage> {
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          type: BottomNavigationBarType.fixed,
-          selectedLabelStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-          ),
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
-          selectedItemColor: AppColors.navBarSelectedItem,
-          unselectedItemColor: AppColors.navBarUnselectedItem,
           items: [
             BottomNavigationBarItem(
               icon: Container(
