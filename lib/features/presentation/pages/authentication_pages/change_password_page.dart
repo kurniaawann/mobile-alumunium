@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
+import 'package:mobile_alumunium/common/validators/authentication_validator/change_password_validator.dart';
+import 'package:mobile_alumunium/common/widgets/custom_loading.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/forgot_password_getx.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
@@ -67,6 +70,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               isPassword: true,
               labelText: 'Password Lama',
               hintText: 'Masukan password lama',
+              validator: (value) =>
+                  ChangePasswordValidator.validateOldPassword(value),
               iconData: Icon(Icons.lock_outline),
             ),
             SizedBox(height: 30),
@@ -77,6 +82,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             isPassword: true,
             labelText: 'Password Baru',
             hintText: 'Masukan password baru',
+            validator: (value) =>
+                ChangePasswordValidator.validateNewPassword(value),
             iconData: Icon(Icons.lock_outline),
           ),
           SizedBox(height: 30),
@@ -86,24 +93,42 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             isPassword: true,
             labelText: 'Konfirmasi Password Baru',
             hintText: 'Masukan password baru',
+            validator: (value) =>
+                ChangePasswordValidator.validateConfirmPassword(
+                    value, _newPasswordController.text),
             iconData: Icon(Icons.lock_outline),
           ),
           SizedBox(height: 30),
-          ElevatedButton(
-            onPressed: () {
-              if (type == 'forgot_password') {
-                forgotpasswordController.forgotPassword(
-                    _newPasswordController.text, context);
-              }
-            },
-            child: Text(
-              'Simpan',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.primaryWhiteColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-            ),
-          ),
+          Obx(() {
+            if (forgotpasswordController.state == RequestState.loading) {
+              return CustomLoading();
+            }
+            return ElevatedButton(
+              onPressed: () async {
+                bool allValid =
+                    _formKeys.every((key) => key.currentState!.validate());
+
+                if (allValid) {
+                  if (type == 'forgot_password') {
+                    bool forgotPassword = await forgotpasswordController
+                        .forgotPassword(_newPasswordController.text, context);
+
+                    if (!forgotPassword) {
+                      allValid = _formKeys
+                          .every((key) => key.currentState!.validate());
+                    }
+                  }
+                }
+              },
+              child: Text(
+                'Simpan',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.primaryWhiteColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            );
+          })
         ],
       ),
     );
