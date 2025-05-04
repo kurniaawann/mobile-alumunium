@@ -7,6 +7,7 @@ import 'package:mobile_alumunium/features/data/models/authentication/login_model
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/register_request.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/user_verification_request.dart';
+import 'package:mobile_alumunium/features/data/models/authentication/verification_forgot_password_model.dart';
 import 'package:mobile_alumunium/features/domain/repositories/authentication/authentication_repository.dart';
 import 'package:mobile_alumunium/managers/helper.dart';
 import 'package:mobile_alumunium/managers/network_info.dart';
@@ -141,12 +142,14 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, void>> verificationForgotPassword(
-      String email, String codeOtp) async {
+  Future<Either<Failure, VerificationForgotPasswordResponse>>
+      verificationForgotPassword(String email, String codeOtp) async {
+    VerificationForgotPasswordResponse verificationForgotPasswordResponse;
     if (await networkInfo.isConnected) {
       try {
-        await remoteDataSource.verificationForgotPassword(email, codeOtp);
-        return Right(null);
+        verificationForgotPasswordResponse =
+            await remoteDataSource.verificationForgotPassword(email, codeOtp);
+        return Right(verificationForgotPasswordResponse);
       } on BadRequestException catch (e) {
         return Left(BadRequestFailure(e.toString()));
       } on UnauthorisedException catch (e) {

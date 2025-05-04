@@ -3,6 +3,7 @@ import 'package:mobile_alumunium/features/data/models/authentication/login_model
 import 'package:mobile_alumunium/features/data/models/authentication/login_request.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/register_request.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/user_verification_request.dart';
+import 'package:mobile_alumunium/features/data/models/authentication/verification_forgot_password_model.dart';
 import 'package:mobile_alumunium/managers/managers.dart';
 
 abstract class AuthenticationRemoteDataSoruce {
@@ -11,7 +12,8 @@ abstract class AuthenticationRemoteDataSoruce {
   Future<void> userverification(
       UserVerificationRequest userVerificationRequest);
   Future<void> sendEmailVerification(String email);
-  Future<void> verificationForgotPassword(String email, String codeOtp);
+  Future<VerificationForgotPasswordResponse> verificationForgotPassword(
+      String email, String codeOtp);
 }
 
 class AuthenticationRemoteDataSoruceImpl
@@ -23,7 +25,6 @@ class AuthenticationRemoteDataSoruceImpl
   final HttpManager httpManager;
   @override
   Future<LoginResponse> login(LoginRequestModel loginRequestModel) async {
-    (loginRequestModel.toJson());
     final response = await httpManager.post(
         url: 'authentication/login', data: loginRequestModel.toJson());
 
@@ -70,14 +71,19 @@ class AuthenticationRemoteDataSoruceImpl
   }
 
   @override
-  Future<void> verificationForgotPassword(String email, String codeOtp) async {
-    try {
-      await httpManager.post(
-        url: 'authentication/user/forgot-password/verification',
-        data: {'email': email, 'codeOtp': codeOtp},
-      );
-    } catch (e) {
-      rethrow;
+  Future<VerificationForgotPasswordResponse> verificationForgotPassword(
+      String email, String codeOtp) async {
+    final response = await httpManager
+        .post(url: 'authentication/user/forgot-password/verification', data: {
+      'email': email,
+      'codeOtp': codeOtp,
+    });
+
+    if (response.statusCode == 201) {
+      (response.data);
+      return VerificationForgotPasswordResponse.fromJson(response.data);
+    } else {
+      throw ServerException();
     }
   }
 }

@@ -22,7 +22,8 @@ class VerificationForgotPasswordController extends GetxController {
     return result.fold((failure) {
       _state.value = RequestState.error;
       return false;
-    }, (success) {
+    }, (data) {
+      printErrorDebug(data.accessToken);
       _state.value = RequestState.success;
       CustomDefaultDialog(
         context: context,
@@ -36,7 +37,7 @@ class VerificationForgotPasswordController extends GetxController {
           // Get.offAllNamed(RouteName.login);
         },
         btnOk: Text(
-          'Masuk',
+          'Lanjut',
           style: TextStyle(color: Colors.white),
         ),
       ).show();
