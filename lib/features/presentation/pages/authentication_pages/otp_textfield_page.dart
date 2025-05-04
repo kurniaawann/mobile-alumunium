@@ -239,7 +239,7 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
 
                   return ElevatedButton(
                     onPressed: () {
-                      userVerificationController.userVerificatio(
+                      userVerificationController.userVerification(
                         UserVerificationRequest(
                           email: email ?? 'Email tidak valid',
                           codeOtp: codeOtpSubmit,

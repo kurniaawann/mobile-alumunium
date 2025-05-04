@@ -155,7 +155,22 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               )
             ],
-          )
+          ),
+          SizedBox(height: 10),
+          TextButton(
+            onPressed: () {
+              Get.toNamed(RouteName.sendEmailVerification, arguments: true);
+            },
+            child: Text(
+              'Verifikasi Ulang',
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.rtl,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  decoration: TextDecoration.underline,
+                  decorationThickness: 2,
+                  color: AppColors.primaryColor),
+            ),
+          ),
         ],
       ),
     );

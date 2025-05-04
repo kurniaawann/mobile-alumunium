@@ -15,7 +15,7 @@ class UserVerificationController {
 
   RequestState get state => _state.value;
 
-  Future<void> userVerificatio(UserVerificationRequest userVerificationRequest,
+  Future<void> userVerification(UserVerificationRequest userVerificationRequest,
       BuildContext context) async {
     _state.value = RequestState.loading;
     final result =

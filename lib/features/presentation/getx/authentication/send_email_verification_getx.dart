@@ -13,7 +13,8 @@ class SendEmailVerificationController extends GetxController {
 
   RequestState get state => _state.value;
 
-  Future<bool> sendEmailVerification(String email, BuildContext context) async {
+  Future<bool> sendEmailVerification(
+      String email, BuildContext context, bool reVerifyEmail) async {
     _state.value = RequestState.loading;
     final result = await sendEmailVerificationUseCase.execute(email);
     return result.fold((failure) {
@@ -44,10 +45,17 @@ class SendEmailVerificationController extends GetxController {
         desc:
             'Kami telah mengirim kode OTP ke email anda, silahkan cek email anda untuk melanjutkan proses verifikasi',
         btnOkOnPress: () {
-          Get.toNamed(
-            RouteName.otp,
-            arguments: {'email': email, 'type': 'forgot-password'},
-          );
+          if (reVerifyEmail) {
+            Get.toNamed(
+              RouteName.otp,
+              arguments: {'email': email, 'type': 'verifikasiEmail'},
+            );
+          } else {
+            Get.toNamed(
+              RouteName.otp,
+              arguments: {'email': email, 'type': 'forgot-password'},
+            );
+          }
         },
         btnOk: Text(
           'Verifikasi Sekarang',

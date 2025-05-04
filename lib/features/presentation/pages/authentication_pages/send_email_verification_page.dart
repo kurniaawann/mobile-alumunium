@@ -9,6 +9,7 @@ import 'package:mobile_alumunium/common/widgets/custom_loading.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/send_email_verification_getx.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
+import 'package:mobile_alumunium/managers/helper.dart';
 import 'package:mobile_alumunium/service_locator.dart';
 
 class SendEmailVerification extends StatefulWidget {
@@ -23,9 +24,15 @@ class _SendEmailVerificationState extends State<SendEmailVerification> {
 
   late final TextEditingController _emailController;
 
+  late final bool _reVerifyEmail;
+
   @override
   void initState() {
     _emailController = TextEditingController(text: 'radenkurni123@gmail.com');
+
+    _reVerifyEmail = Get.arguments;
+
+    printErrorDebug(_reVerifyEmail);
     super.initState();
   }
 
@@ -42,7 +49,7 @@ class _SendEmailVerificationState extends State<SendEmailVerification> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Lupa Password',
+          _reVerifyEmail ? 'Verifikasi Ulang Email' : 'Lupa Password',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
@@ -55,10 +62,12 @@ class _SendEmailVerificationState extends State<SendEmailVerification> {
             height: 200,
           ),
           AuthWelcomeCard(
-            title: 'Lupa Password?',
-            message:
-                'Kami akan mengirimkan kode otp untuk mereset password ke email Anda',
-            icon: Icons.password_outlined,
+            title: _reVerifyEmail ? 'Verifikasi Ulang Email' : 'Lupa Password?',
+            message: _reVerifyEmail
+                ? 'Kami akan mengirimkan kode otp untuk verifikasi ulang email Anda'
+                : 'Kami akan mengirimkan kode otp untuk mereset password ke email Anda',
+            icon:
+                _reVerifyEmail ? Icons.email_outlined : Icons.password_outlined,
           ),
           CustomTextfield(
             textEditingController: _emailController,
@@ -81,7 +90,7 @@ class _SendEmailVerificationState extends State<SendEmailVerification> {
                 if (_formKey.currentState!.validate()) {
                   // final email = _emailController.text;
                   sendEmailVerificationController.sendEmailVerification(
-                      _emailController.text, context);
+                      _emailController.text, context, _reVerifyEmail);
                 }
               },
               child: Text(
