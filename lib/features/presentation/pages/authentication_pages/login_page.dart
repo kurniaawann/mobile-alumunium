@@ -93,7 +93,8 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextButton(
                 onPressed: () {
-                  Get.toNamed(RouteName.sendEmailVerification);
+                  Get.toNamed(RouteName.sendEmailVerification,
+                      arguments: false);
                 },
                 child: Text(
                   'Lupa Password?',
