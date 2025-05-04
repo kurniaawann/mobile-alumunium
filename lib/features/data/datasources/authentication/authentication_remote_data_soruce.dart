@@ -11,6 +11,7 @@ abstract class AuthenticationRemoteDataSoruce {
   Future<void> userverification(
       UserVerificationRequest userVerificationRequest);
   Future<void> sendEmailVerification(String email);
+  Future<void> verificationForgotPassword(String email, String codeOtp);
 }
 
 class AuthenticationRemoteDataSoruceImpl
@@ -62,6 +63,18 @@ class AuthenticationRemoteDataSoruceImpl
       await httpManager.post(
         url: 'authentication/send/otp',
         data: {'email': email},
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> verificationForgotPassword(String email, String codeOtp) async {
+    try {
+      await httpManager.post(
+        url: 'authentication/user/forgot-password/verification',
+        data: {'email': email, 'codeOtp': codeOtp},
       );
     } catch (e) {
       rethrow;

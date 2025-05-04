@@ -42,9 +42,12 @@ class SendEmailVerificationController extends GetxController {
         animType: AnimType.scale,
         title: 'Kode verifikasi dikirim ke',
         desc:
-            'Kami telah mengirim kode OTP ke email Anda. Silakan verifikasi akun Anda dalam 5 menit untuk mengaktifkan akun.',
+            'Kami telah mengirim kode OTP ke email anda, silahkan cek email anda untuk melanjutkan proses verifikasi',
         btnOkOnPress: () {
-          Get.toNamed(RouteName.otp);
+          Get.toNamed(
+            RouteName.otp,
+            arguments: {'email': email, 'type': 'forgot-password'},
+          );
         },
         btnOk: Text(
           'Verifikasi Sekarang',

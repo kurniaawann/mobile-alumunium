@@ -51,7 +51,10 @@ class RegisterController extends GetxController {
         btnOkOnPress: () {
           Get.toNamed(
             RouteName.otp,
-            arguments: registerRequestModel.email,
+            arguments: {
+              'email': registerRequestModel.email,
+              'type': 'verifikasiEmail'
+            },
           );
         },
         btnOk: Text(

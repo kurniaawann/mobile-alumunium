@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
+import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/widgets/custom_leading_appbar.dart';
+import 'package:mobile_alumunium/common/widgets/custom_loading.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/user_verification_request.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/user_verification_getx.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/verification_forgot_password_controller.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 import 'package:mobile_alumunium/service_locator.dart';
 
@@ -19,7 +22,8 @@ class OtpTextfieldPage extends StatefulWidget {
 }
 
 class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
-  String? email;
+  late String? email;
+  late String? type;
 
   Timer? _timer;
   int _resendCooldown = 60;
@@ -27,7 +31,11 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
 
   @override
   void initState() {
-    email = Get.arguments as String?;
+    final args = Get.arguments as Map<String, dynamic>;
+
+    email = args['email'] as String?;
+    type = args['type'] as String?;
+
     super.initState();
     _startResendTimer();
   }
@@ -128,6 +136,9 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
     final userVerificationController =
         serviceLocator<UserVerificationController>();
 
+    final verificationForgotPasswordController =
+        serviceLocator<VerificationForgotPasswordController>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -195,27 +206,56 @@ class _OtpTextfieldPageState extends State<OtpTextfieldPage> {
               const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    userVerificationController.userVerificatio(
-                      UserVerificationRequest(
-                        email: email ?? 'Email tidak valid',
-                        codeOtp: codeOtpSubmit,
+                child: Obx(() {
+                  if (type == 'forgot-password') {
+                    if (verificationForgotPasswordController.state ==
+                        RequestState.loading) {
+                      return CustomLoading();
+                    }
+
+                    return ElevatedButton(
+                      onPressed: () {
+                        verificationForgotPasswordController
+                            .verificationForgotPassword(
+                          email ?? 'Email tidak valid',
+                          codeOtpSubmit,
+                          context,
+                        );
+                      },
+                      child: Text(
+                        'Kirim',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.primaryWhiteColor,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
-                      context,
                     );
-                    debugPrint(codeOtpSubmit.length.toString());
-                    debugPrint(codeOtpSubmit);
-                    debugPrint(email);
-                  },
-                  child: Text(
-                    'Kirim',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.primaryWhiteColor,
-                          fontWeight: FontWeight.w600,
+                  }
+
+                  if (userVerificationController.state ==
+                      RequestState.loading) {
+                    return CustomLoading();
+                  }
+
+                  return ElevatedButton(
+                    onPressed: () {
+                      userVerificationController.userVerificatio(
+                        UserVerificationRequest(
+                          email: email ?? 'Email tidak valid',
+                          codeOtp: codeOtpSubmit,
                         ),
-                  ),
-                ),
+                        context,
+                      );
+                    },
+                    child: Text(
+                      'Kirim',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppColors.primaryWhiteColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                  );
+                }),
               ),
             ],
           ),

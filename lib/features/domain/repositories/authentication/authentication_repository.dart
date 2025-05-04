@@ -10,4 +10,6 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, Unit>> register(RegisterRequestModel param);
   Future<Either<Failure, void>> userVerification(UserVerificationRequest param);
   Future<Either<Failure, void>> sendEmailVerification(String email);
+  Future<Either<Failure, void>> verificationForgotPassword(
+      String email, String codeOtp);
 }

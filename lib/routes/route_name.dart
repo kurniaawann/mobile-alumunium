@@ -1,7 +1,7 @@
 abstract class RouteName {
   static const login = '/login';
   static const register = '/register';
-  static const forgotPassword = '/forgotPassword';
+  static const sendEmailVerification = '/sendEmailVerification';
   static const otp = '/otp';
   static const changePassword = '/changePassword';
   // static const homePage = '/HomePage';
