@@ -10,6 +10,7 @@ abstract class AuthenticationRemoteDataSoruce {
   Future<void> register(RegisterRequestModel registerRequestModel);
   Future<void> userverification(
       UserVerificationRequest userVerificationRequest);
+  Future<void> sendEmailVerification(String email);
 }
 
 class AuthenticationRemoteDataSoruceImpl
@@ -50,6 +51,18 @@ class AuthenticationRemoteDataSoruceImpl
       await httpManager.post(
           url: 'authentication/user/verification',
           data: userVerificationRequest.toJson());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> sendEmailVerification(String email) async {
+    try {
+      await httpManager.post(
+        url: 'authentication/send/otp',
+        data: {'email': email},
+      );
     } catch (e) {
       rethrow;
     }

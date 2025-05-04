@@ -5,9 +5,11 @@ import 'package:mobile_alumunium/features/data/repositories/authentication/authe
 import 'package:mobile_alumunium/features/domain/repositories/authentication/authentication_repository.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/login.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/register.dart';
+import 'package:mobile_alumunium/features/domain/usecase/authentication/send_email_verification.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/user_verification.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/login_getx.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/register_getx.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/send_email_verification_getx.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/user_verification_getx.dart';
 import 'package:mobile_alumunium/managers/dio_loging_inceptors.dart';
 import 'package:mobile_alumunium/managers/managers.dart';
@@ -75,6 +77,11 @@ Future<void> initDependencyInjection() async {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton(
+    () => SendEmailVerification(
+      serviceLocator(),
+    ),
+  );
 
   //! Controllers
   serviceLocator.registerLazySingleton(
@@ -85,5 +92,10 @@ Future<void> initDependencyInjection() async {
   );
   serviceLocator.registerLazySingleton(
     () => UserVerificationController(userVerificationUseCase: serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => SendEmailVerificationController(
+        sendEmailVerificationUseCase: serviceLocator()),
   );
 }

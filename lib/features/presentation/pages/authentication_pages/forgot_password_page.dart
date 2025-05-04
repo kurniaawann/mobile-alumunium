@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
+import 'package:mobile_alumunium/common/validators/authentication_validator/send_email_verification_validate.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/send_email_verification_getx.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
-import 'package:mobile_alumunium/routes/route_name.dart';
+import 'package:mobile_alumunium/service_locator.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -21,12 +22,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   void initState() {
-    _emailController = TextEditingController();
+    _emailController = TextEditingController(text: 'radenkurni78@gmail.com');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final sendEmailVerificationController =
+        serviceLocator<SendEmailVerificationController>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,6 +54,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           CustomTextfield(
             textEditingController: _emailController,
             formKey: _formKey,
+            validator: (value) => validateEmail(value),
             labelText: 'Email',
             hintText: 'Masukan email',
             iconData: FaIcon(
@@ -61,7 +65,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           SizedBox(height: 25),
           ElevatedButton(
             onPressed: () {
-              Get.toNamed(RouteName.otp);
+              if (_formKey.currentState!.validate()) {
+                // final email = _emailController.text;
+                sendEmailVerificationController.sendEmailVerification(
+                    _emailController.text, context);
+              }
             },
             child: Text(
               'Kirim',
