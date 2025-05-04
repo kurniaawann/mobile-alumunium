@@ -5,6 +5,11 @@ class OutgoingItemPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Outgoing Items')),
+      body: const Center(
+        child: Text('Outgoing Items Page'),
+      ),
+    );
   }
 }

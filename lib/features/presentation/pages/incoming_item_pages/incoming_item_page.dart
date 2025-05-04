@@ -5,6 +5,11 @@ class IncomingItemPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Incoming Items')),
+      body: const Center(
+        child: Text('Incoming Items Page'),
+      ),
+    );
   }
 }

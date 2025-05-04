@@ -32,6 +32,7 @@ class LoginController extends GetxController {
     }, (success) {
       _state.value = RequestState.success;
       ViewCustomSnackBar.showSuccess(context, 'Berhasil Masuk');
+      Get.offAllNamed('/main');
       return true;
     });
   }
