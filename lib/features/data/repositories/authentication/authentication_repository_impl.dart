@@ -172,4 +172,33 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return Left(NetworkFailure(StringResources.networkFailureMessage));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> forgotPassword(String newPassword) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await remoteDataSource.forgotPassword(newPassword);
+        return Right(null);
+      } on BadRequestException catch (e) {
+        return Left(BadRequestFailure(e.toString()));
+      } on UnauthorisedException catch (e) {
+        return Left(UnauthorisedFailure(e.toString()));
+      } on NotFoundException catch (e) {
+        return Left(NotFoundFailure(e.toString()));
+      } on FetchDataException catch (e) {
+        return Left(ServerFailure(e.message ?? ''));
+      } on InvalidCredentialException catch (e) {
+        return Left(InvalidCredentialFailure(e.toString()));
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message ?? ''));
+      } on NetworkException {
+        return const Left(
+            NetworkFailure(StringResources.networkFailureMessage));
+      } catch (e) {
+        return Left(UnknowFailure(e));
+      }
+    } else {
+      return Left(NetworkFailure(StringResources.networkFailureMessage));
+    }
+  }
 }

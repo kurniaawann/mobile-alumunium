@@ -13,4 +13,5 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, void>> sendEmailVerification(String email);
   Future<Either<Failure, VerificationForgotPasswordResponse>>
       verificationForgotPassword(String email, String codeOtp);
+  Future<Either<Failure, void>> forgotPassword(String newPassword);
 }

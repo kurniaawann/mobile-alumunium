@@ -14,6 +14,8 @@ abstract class AuthenticationRemoteDataSoruce {
   Future<void> sendEmailVerification(String email);
   Future<VerificationForgotPasswordResponse> verificationForgotPassword(
       String email, String codeOtp);
+
+  Future<void> forgotPassword(String newPassword);
 }
 
 class AuthenticationRemoteDataSoruceImpl
@@ -84,6 +86,18 @@ class AuthenticationRemoteDataSoruceImpl
       return VerificationForgotPasswordResponse.fromJson(response.data);
     } else {
       throw ServerException();
+    }
+  }
+
+  @override
+  Future<void> forgotPassword(String newPassword) async {
+    try {
+      await httpManager.post(
+        url: 'authentication/forgot/password',
+        data: {'newPassword': newPassword},
+      );
+    } catch (e) {
+      rethrow;
     }
   }
 }

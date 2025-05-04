@@ -3,11 +3,13 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_alumunium/features/data/datasources/authentication/authentication_remote_data_soruce.dart';
 import 'package:mobile_alumunium/features/data/repositories/authentication/authentication_repository_impl.dart';
 import 'package:mobile_alumunium/features/domain/repositories/authentication/authentication_repository.dart';
+import 'package:mobile_alumunium/features/domain/usecase/authentication/forgot_password.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/login.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/register.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/send_email_verification.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/user_verification.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/verification_forgot_password.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/forgot_password_getx.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/login_getx.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/register_getx.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/send_email_verification_getx.dart';
@@ -89,6 +91,11 @@ Future<void> initDependencyInjection() async {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton(
+    () => ForgotPasswordUseCase(
+      serviceLocator(),
+    ),
+  );
 
   //! Controllers
   serviceLocator.registerLazySingleton(
@@ -108,5 +115,9 @@ Future<void> initDependencyInjection() async {
   serviceLocator.registerLazySingleton(
     () => VerificationForgotPasswordController(
         verificationForgotPasswordUseCase: serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => ForgotPasswordController(forgotPasswordUseCase: serviceLocator()),
   );
 }

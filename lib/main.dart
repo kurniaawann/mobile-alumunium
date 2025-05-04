@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: AppTheme.lightTheme,
       getPages: Myroute.pages,
-      initialRoute: RouteName.login,
+      initialRoute: RouteName.sendEmailVerification,
       navigatorKey: navigatorKey,
     );
   }

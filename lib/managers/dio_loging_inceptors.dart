@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_alumunium/features/presentation/getx/cache_local/cache.dart';
+import 'package:mobile_alumunium/managers/helper.dart';
 
 class SimpleInterceptor extends Interceptor {
   final String? token;
@@ -9,16 +11,25 @@ class SimpleInterceptor extends Interceptor {
   SimpleInterceptor({this.token});
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // Tambahkan Authorization header jika ada token
-    if (token != null) {
-      options.headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    String? tokenToUse;
+
+    // Ambil token reset password
+    final resetPasswordToken = await TokenStorage.getTokenResetPassword();
+
+    if (resetPasswordToken != null) {
+      tokenToUse = resetPasswordToken;
+    } else {
+      // Kalau nggak ada token reset password, ambil token user
+      final userToken = await TokenStorage.getUserToken();
+      tokenToUse = userToken;
     }
 
-    // Log request
-    debugPrint('[DIO] Request: ${options.method} ${options.uri}');
-    debugPrint('[DIO] Headers: ${options.headers}');
-    debugPrint('[DIO] Data: ${options.data}');
+    printErrorDebug('ini value dari tokennya $tokenToUse');
+    if (tokenToUse != null) {
+      options.headers[HttpHeaders.authorizationHeader] = 'Bearer $tokenToUse';
+    }
 
     super.onRequest(options, handler);
   }

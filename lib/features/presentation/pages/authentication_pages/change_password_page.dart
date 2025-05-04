@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/string_resource/string_resouce.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/forgot_password_getx.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
+import 'package:mobile_alumunium/service_locator.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -22,8 +25,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   late final TextEditingController _newPasswordController;
   late final TextEditingController _confirmPasswordController;
 
+  late String? type;
+
   @override
   void initState() {
+    type = Get.arguments as String?;
+    debugPrint('Argument yang diterima: $type');
     _oldPasswordController = TextEditingController();
     _newPasswordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
@@ -32,6 +39,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final forgotpasswordController = serviceLocator<ForgotPasswordController>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -52,15 +60,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             message: 'Silakan buat password baru yang lebih kuat.',
             icon: Icons.lock_outlined,
           ),
-          CustomTextfield(
-            textEditingController: _oldPasswordController,
-            formKey: _formKeys[0],
-            isPassword: true,
-            labelText: 'Password Lama',
-            hintText: 'Masukan password lama',
-            iconData: Icon(Icons.lock_outline),
-          ),
-          SizedBox(height: 30),
+          if (type != 'forgot_password') ...[
+            CustomTextfield(
+              textEditingController: _oldPasswordController,
+              formKey: _formKeys[0],
+              isPassword: true,
+              labelText: 'Password Lama',
+              hintText: 'Masukan password lama',
+              iconData: Icon(Icons.lock_outline),
+            ),
+            SizedBox(height: 30),
+          ],
           CustomTextfield(
             textEditingController: _newPasswordController,
             formKey: _formKeys[1],
@@ -80,7 +90,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           ),
           SizedBox(height: 30),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              if (type == 'forgot_password') {
+                forgotpasswordController.forgotPassword(
+                    _newPasswordController.text, context);
+              }
+            },
             child: Text(
               'Simpan',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
