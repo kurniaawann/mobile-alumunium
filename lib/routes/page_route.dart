@@ -4,6 +4,9 @@ import 'package:mobile_alumunium/features/presentation/pages/authentication_page
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/otp_textfield_page.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/register_page.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/send_email_verification_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/home/home_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/incoming_item_pages/incoming_item_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/outgoing_item_pages/outgoing_item_page.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 
 class Myroute {
@@ -19,13 +22,10 @@ class Myroute {
     GetPage(name: RouteName.otp, page: () => const OtpTextfieldPage()),
     GetPage(
         name: RouteName.changePassword, page: () => const ChangePasswordPage()),
-
-    // GetPage(name: RouteName.homePage, page: () => HomePage()),
-    // GetPage(name: RouteName.detailInformasi, page: () => DetailInformasi()),
-    // GetPage(name: RouteName.customerReview, page: () => const CustomerReview()),
-    // GetPage(name: RouteName.search, page: () => const Search()),
-    // GetPage(name: RouteName.favorite, page: () => const Favorite()),
-    // GetPage(name: RouteName.setting, page: () => Settings()),
-    // GetPage(name: RouteName.addreview, page: () => const Addreview()),
+    GetPage(name: RouteName.homePage, page: () => const HomePage()),
+    GetPage(
+        name: RouteName.incomingItemPage, page: () => const IncomingItemPage()),
+    GetPage(
+        name: RouteName.outgoingItemPage, page: () => const OutgoingItemPage()),
   ];
 }

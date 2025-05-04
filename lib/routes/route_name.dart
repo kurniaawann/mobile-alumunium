@@ -4,7 +4,9 @@ abstract class RouteName {
   static const sendEmailVerification = '/sendEmailVerification';
   static const otp = '/otp';
   static const changePassword = '/changePassword';
-  // static const homePage = '/HomePage';
+  static const homePage = '/HomePage';
+  static const incomingItemPage = '/IncomingItemPage';
+  static const outgoingItemPage = '/OutgoingItemPage';
   // static const detailInformasi = '/DetailInformasi';
   // static const customerReview = '/customerReview';
   // static const search = '/search';
