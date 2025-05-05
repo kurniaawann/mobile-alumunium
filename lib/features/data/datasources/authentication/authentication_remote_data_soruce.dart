@@ -6,7 +6,7 @@ import 'package:mobile_alumunium/features/data/models/authentication/user_verifi
 import 'package:mobile_alumunium/features/data/models/authentication/verification_forgot_password_model.dart';
 import 'package:mobile_alumunium/managers/managers.dart';
 
-abstract class AuthenticationRemoteDataSoruce {
+abstract class AuthenticationRemoteDataSource {
   Future<LoginResponse> login(LoginRequestModel loginRequestModel);
   Future<void> register(RegisterRequestModel registerRequestModel);
   Future<void> userverification(
@@ -19,7 +19,7 @@ abstract class AuthenticationRemoteDataSoruce {
 }
 
 class AuthenticationRemoteDataSoruceImpl
-    implements AuthenticationRemoteDataSoruce {
+    implements AuthenticationRemoteDataSource {
   AuthenticationRemoteDataSoruceImpl({
     required this.httpManager,
   });

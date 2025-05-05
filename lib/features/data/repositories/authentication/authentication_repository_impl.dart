@@ -14,7 +14,7 @@ import 'package:mobile_alumunium/managers/network_info.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final NetworkInfo networkInfo;
-  final AuthenticationRemoteDataSoruce remoteDataSource;
+  final AuthenticationRemoteDataSource remoteDataSource;
 
   AuthenticationRepositoryImpl({
     required this.networkInfo,
