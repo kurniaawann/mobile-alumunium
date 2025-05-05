@@ -9,7 +9,7 @@ import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/widgets/custom_leading_appbar.dart';
 import 'package:mobile_alumunium/common/widgets/custom_loading.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/user_verification_request.dart';
-import 'package:mobile_alumunium/features/presentation/getx/authentication/user_verification_getx.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/user_verification_controller.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/verification_forgot_password_controller.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 import 'package:mobile_alumunium/service_locator.dart';

@@ -9,11 +9,11 @@ import 'package:mobile_alumunium/features/domain/usecase/authentication/register
 import 'package:mobile_alumunium/features/domain/usecase/authentication/send_email_verification.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/user_verification.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/verification_forgot_password.dart';
-import 'package:mobile_alumunium/features/presentation/getx/authentication/forgot_password_getx.dart';
-import 'package:mobile_alumunium/features/presentation/getx/authentication/login_getx.dart';
-import 'package:mobile_alumunium/features/presentation/getx/authentication/register_getx.dart';
-import 'package:mobile_alumunium/features/presentation/getx/authentication/send_email_verification_getx.dart';
-import 'package:mobile_alumunium/features/presentation/getx/authentication/user_verification_getx.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/forgot_password_controller.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/login_controller.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/register_controller.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/send_email_verification_controller.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/user_verification_controller.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/verification_forgot_password_controller.dart';
 import 'package:mobile_alumunium/managers/dio_loging_inceptors.dart';
 import 'package:mobile_alumunium/managers/managers.dart';

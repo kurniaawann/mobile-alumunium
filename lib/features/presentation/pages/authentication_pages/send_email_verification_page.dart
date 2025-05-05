@@ -7,7 +7,7 @@ import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/common/validators/authentication_validator/send_email_verification_validate.dart';
 import 'package:mobile_alumunium/common/widgets/custom_loading.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
-import 'package:mobile_alumunium/features/presentation/getx/authentication/send_email_verification_getx.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/send_email_verification_controller.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
 import 'package:mobile_alumunium/managers/helper.dart';
 import 'package:mobile_alumunium/service_locator.dart';

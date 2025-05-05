@@ -10,7 +10,7 @@ import 'package:mobile_alumunium/common/validators/authentication_validator/regi
 import 'package:mobile_alumunium/common/widgets/custom_loading.dart';
 import 'package:mobile_alumunium/common/widgets/custom_textfield.dart';
 import 'package:mobile_alumunium/features/data/models/authentication/register_request.dart';
-import 'package:mobile_alumunium/features/presentation/getx/authentication/register_getx.dart';
+import 'package:mobile_alumunium/features/presentation/getx/authentication/register_controller.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/widgets/auth_welcome.dart';
 import 'package:mobile_alumunium/service_locator.dart';
 
