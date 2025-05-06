@@ -16,7 +16,7 @@ class SliverAppbar extends StatelessWidget {
         gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: AppColors.primarygradientColor),
+            colors: AppColors.primaryGradientColor),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(5),
           bottomRight: Radius.circular(5),
