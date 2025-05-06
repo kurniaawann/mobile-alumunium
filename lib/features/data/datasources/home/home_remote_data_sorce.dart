@@ -2,12 +2,12 @@ import 'package:mobile_alumunium/exceptions/app_exceptions.dart';
 import 'package:mobile_alumunium/features/data/models/home/home_model.dart';
 import 'package:mobile_alumunium/managers/managers.dart';
 
-abstract class HomeRemoteDataSorce {
+abstract class HomeRemoteDataSource {
   Future<HomeModel> getHomeData();
 }
 
-class HomeRemoteDataSorceImpl implements HomeRemoteDataSorce {
-  HomeRemoteDataSorceImpl({
+class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
+  HomeRemoteDataSourceImpl({
     required this.httpManager,
   });
 

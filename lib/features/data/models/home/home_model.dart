@@ -4,8 +4,10 @@ import 'package:mobile_alumunium/features/domain/entities/home.dart';
 class HomeModel extends Equatable {
   final User user;
   final List<Item> item;
+  final Statistics statistics;
 
   const HomeModel({
+    required this.statistics,
     required this.user,
     required this.item,
   });
@@ -13,9 +15,10 @@ class HomeModel extends Equatable {
   factory HomeModel.fromJson(Map<String, dynamic> json) {
     return HomeModel(
       user: User.fromJson(json['user']),
-      item: (json['item'] as List)
+      item: (json['items'] as List)
           .map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
+      statistics: Statistics.fromJson(json['statistics']),
     );
   }
 
@@ -45,6 +48,14 @@ class HomeModel extends Equatable {
                 updatedAt: e.updatedAt,
               ))
           .toList(),
+      statistics: StatisticsEntity(
+        itemCount: statistics.itemCount,
+        incomingItemCount: statistics.incomingItemCount,
+        outgoingItemCount: statistics.outgoingItemCount,
+        projectCount: statistics.projectCount,
+        lowStockItemsCount: statistics.lowStockItemsCount,
+        stockCount: statistics.stockCount,
+      ),
     );
   }
 
@@ -86,7 +97,7 @@ class User extends Equatable {
 class Item extends Equatable {
   final String itemId;
   final String itemName;
-  final int itemCode;
+  final int? itemCode;
   final int stock;
   final int? height;
   final int? width;
@@ -108,7 +119,7 @@ class Item extends Equatable {
     return Item(
       itemId: json['item_id'] as String,
       itemName: json['item_name'] as String,
-      itemCode: json['item_code'] as int,
+      itemCode: json['item_code'] != null ? json['item_code'] as int : null,
       stock: json['stock'] as int,
       height: json['height'] != null ? json['height'] as int : null,
       width: json['width'] != null ? json['width'] as int : null,
@@ -140,5 +151,55 @@ class Item extends Equatable {
         width,
         createdAt,
         updatedAt,
+      ];
+}
+
+class Statistics extends Equatable {
+  final int itemCount;
+  final int incomingItemCount;
+  final int outgoingItemCount;
+  final int projectCount;
+  final int lowStockItemsCount;
+  final int stockCount;
+
+  const Statistics({
+    required this.stockCount,
+    required this.itemCount,
+    required this.incomingItemCount,
+    required this.outgoingItemCount,
+    required this.projectCount,
+    required this.lowStockItemsCount,
+  });
+
+  factory Statistics.fromJson(Map<String, dynamic> json) {
+    return Statistics(
+      itemCount: json['item_count'] as int,
+      incomingItemCount: json['incoming_item_count'] as int,
+      outgoingItemCount: json['outgoing_item_count'] as int,
+      projectCount: json['project_count'] as int,
+      lowStockItemsCount: json['low_stock_items_count'] as int,
+      stockCount: json['stock_count'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'item_count': itemCount,
+      'incoming_item_count': incomingItemCount,
+      'outgoing_item_count': outgoingItemCount,
+      'project_count': projectCount,
+      'low_stock_items_count': lowStockItemsCount,
+      'stock_count': stockCount,
+    };
+  }
+
+  @override
+  List<Object> get props => [
+        itemCount,
+        incomingItemCount,
+        outgoingItemCount,
+        projectCount,
+        stockCount,
+        lowStockItemsCount,
       ];
 }

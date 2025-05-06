@@ -3,8 +3,10 @@ import 'package:equatable/equatable.dart';
 class HomeEntity extends Equatable {
   final UserEntity user;
   final List<ItemEntity> item;
+  final StatisticsEntity statistics;
 
   const HomeEntity({
+    required this.statistics,
     required this.user,
     required this.item,
   });
@@ -31,7 +33,7 @@ class UserEntity extends Equatable {
 class ItemEntity extends Equatable {
   final String itemId;
   final String itemName;
-  final int itemCode;
+  final int? itemCode;
   final int stock;
   final int? height;
   final int? width;
@@ -59,5 +61,33 @@ class ItemEntity extends Equatable {
         width,
         createdAt,
         updatedAt,
+      ];
+}
+
+class StatisticsEntity extends Equatable {
+  final int itemCount;
+  final int incomingItemCount;
+  final int outgoingItemCount;
+  final int projectCount;
+  final int lowStockItemsCount;
+  final int stockCount;
+
+  const StatisticsEntity({
+    required this.itemCount,
+    required this.incomingItemCount,
+    required this.outgoingItemCount,
+    required this.projectCount,
+    required this.lowStockItemsCount,
+    required this.stockCount,
+  });
+
+  @override
+  List<Object> get props => [
+        itemCount,
+        incomingItemCount,
+        outgoingItemCount,
+        projectCount,
+        lowStockItemsCount,
+        stockCount
       ];
 }

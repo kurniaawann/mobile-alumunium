@@ -9,7 +9,7 @@ import 'package:mobile_alumunium/managers/network_info.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
   final NetworkInfo networkInfo;
-  final HomeRemoteDataSorce remoteDataSource;
+  final HomeRemoteDataSource remoteDataSource;
 
   HomeRepositoryImpl({
     required this.networkInfo,
