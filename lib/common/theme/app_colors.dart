@@ -14,4 +14,15 @@ class AppColors {
   static Color navBarSelectedItem = const Color(0xFF4942E4);
   static Color navBarUnselectedItem = const Color(0xFF8E8E93);
   static Color navBarIndicator = const Color(0xFF4942E4);
+
+  static List<Color> seccountGradientColor = [
+    Color(0xFF6A63FE).withOpacity(0.7),
+    Color(0xFFA5B4FC),
+    Color(0xFFE0E7FF),
+  ]; // Add more colors as needed>
+  static List<Color> primarygradientColor = [
+    AppColors.primaryColor,
+    AppColors.lightPrimaryColor,
+    AppColors.errorColor,
+  ]; // Add more colors as needed>
 }
