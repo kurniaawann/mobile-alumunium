@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  Icons.home_rounded,
+                  Icons.home_outlined,
                   size: 24,
                   color: _selectedIndex == 0
                       ? AppColors.primaryColor
