@@ -41,13 +41,15 @@ class AppTheme {
 
   static ThemeData _buildThemeComponents(ThemeData base) {
     return base.copyWith(
-        elevatedButtonTheme: _buildElevatedButtonTheme(base),
-        filledButtonTheme: _buildFilledButtonTheme(base),
-        iconTheme: _buildIconTheme(base),
-        textButtonTheme: _buildTextButtonTheme(base),
-        inputDecorationTheme: _buildInputDecorationTheme(base),
-        appBarTheme: _buildAppBarTheme(base),
-        bottomNavigationBarTheme: _bottomNavigationBarTheme(base));
+      elevatedButtonTheme: _buildElevatedButtonTheme(base),
+      filledButtonTheme: _buildFilledButtonTheme(base),
+      iconTheme: _buildIconTheme(base),
+      textButtonTheme: _buildTextButtonTheme(base),
+      inputDecorationTheme: _buildInputDecorationTheme(base),
+      appBarTheme: _buildAppBarTheme(base),
+      bottomNavigationBarTheme: _bottomNavigationBarTheme(base),
+      cardTheme: _buildCardTheme(base),
+    );
   }
 
   static TextButtonThemeData _buildTextButtonTheme(ThemeData base) {
@@ -118,6 +120,21 @@ class AppTheme {
       ),
       selectedItemColor: AppColors.navBarSelectedItem,
       unselectedItemColor: AppColors.navBarUnselectedItem,
+    );
+  }
+
+  static CardTheme _buildCardTheme(ThemeData base) {
+    return CardTheme(
+      color: AppColors.primaryWhiteColor,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          width: 1.5,
+          color: Colors.white,
+        ),
+      ),
+      shadowColor: AppColors.primaryColor.withOpacity(0.1),
     );
   }
 
