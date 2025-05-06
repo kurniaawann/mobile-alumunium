@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
 import 'package:mobile_alumunium/features/domain/entities/home.dart';
 import 'package:mobile_alumunium/features/domain/usecase/home/home.dart';
-import 'package:mobile_alumunium/managers/helper.dart';
 
 class HomeController extends GetxController {
   final HomeUseCase homeUseCase; // ini usecase-nya
@@ -10,17 +9,17 @@ class HomeController extends GetxController {
   HomeController({required this.homeUseCase});
 
   final Rx<RequestState> _state = RequestState.empty.obs;
-  var message = ''.obs;
-  var homeData = Rxn<HomeEntity>();
+  late RxString message = ''.obs;
+  final homeData = Rxn<HomeEntity>();
 
   RequestState get state => _state.value;
 
-  @override
-  void onInit() {
-    fetchHomeData();
-    printErrorDebug('Dijalankan on inti');
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   fetchHomeData();
+  //   printErrorDebug('Dijalankan on inti');
+  //   super.onInit();
+  // }
 
   Future<void> fetchHomeData() async {
     _state.value = RequestState.loading;
