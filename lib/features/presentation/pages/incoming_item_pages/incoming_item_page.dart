@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
+import 'package:mobile_alumunium/common/widgets/custom_info_item.dart';
 import 'package:mobile_alumunium/features/domain/entities/incoming_item/incoming_item.dart';
 
 class IncomingItemPage extends StatelessWidget {
@@ -83,84 +84,58 @@ class IncomingItemPage extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header with actions
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'INCOMING STOCK',
+                  'Barang Masuk',
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: AppColors.primaryColor,
                     letterSpacing: 1.2,
                   ),
                 ),
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.successColor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        'COMPLETED',
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: AppColors.successColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    _buildActionMenu(item, context),
-                  ],
-                ),
+                // _buildActionMenu(item, context),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 15),
 
             // Main content
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildInfoItem(
-                  context: context,
+                CustomInfoItem(
                   icon: Icons.inventory,
-                  title: 'Quantity',
+                  title: 'Jumlah',
                   value: '${item.quantity} pcs',
                   color: AppColors.primaryColor,
                 ),
-                _buildInfoItem(
-                  context: context,
+                CustomInfoItem(
                   icon: Icons.person,
-                  title: 'Received By',
+                  title: 'Diterima oleh',
                   value: item.receivedBy,
                   color: AppColors.infoColor,
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 15),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildInfoItem(
-                  context: context,
+                CustomInfoItem(
                   icon: Icons.attach_money,
-                  title: 'Total Price',
+                  title: 'Total Harga',
                   value: currencyFormat.format(item.priceIncomingItem),
                   color: AppColors.successColor,
                 ),
-                _buildInfoItem(
-                  context: context,
+                CustomInfoItem(
                   icon: Icons.calendar_today,
-                  title: 'Received Date',
+                  title: 'Diterima',
                   value: DateFormat('dd MMM yyyy').format(item.createdAt),
                   color: AppColors.warningColor,
                 ),
@@ -176,14 +151,8 @@ class IncomingItemPage extends StatelessWidget {
 
             // Footer
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  'Transaction ID: ${item.incomingItemsId}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
                 Text(
                   'Updated: ${DateFormat('dd MMM yyyy HH:mm').format(item.updatedAt)}',
                   style: theme.textTheme.bodySmall?.copyWith(),
@@ -219,42 +188,6 @@ class IncomingItemPage extends StatelessWidget {
             leading: Icon(Icons.delete, color: AppColors.errorColor),
             title:
                 Text('Delete', style: Theme.of(context).textTheme.bodyMedium),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInfoItem({
-    required BuildContext context,
-    required IconData icon,
-    required String title,
-    required String value,
-    required Color color,
-  }) {
-    final theme = Theme.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Icon(icon, size: 18, color: color),
-            const SizedBox(width: 6),
-            Text(
-              title,
-              style: theme.textTheme.labelMedium?.copyWith(
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.w600,
           ),
         ),
       ],
