@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TokenStorage {
   static const String _tokenResetPassword = 'token_reset_password';
   static const String _tokenUser = 'token_user';
+  static const String _role = 'role';
 
   /// Simpan token Reset Password
   /// Simpan token
@@ -39,5 +40,20 @@ class TokenStorage {
   static Future<void> clearUserToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenUser);
+  }
+
+  static Future<void> saveRole(String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_role, token);
+  }
+
+  static Future<void> deleteRole() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_role);
+  }
+
+  static Future<String?> getRoleUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_tokenUser);
   }
 }
