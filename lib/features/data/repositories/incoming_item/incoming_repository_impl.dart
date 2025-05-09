@@ -17,12 +17,13 @@ class IncomingRepositoryImpl implements IncomingItemRepository {
   });
 
   @override
-  Future<Either<Failure, IncomingItemEntity>> getIncomingItem() async {
+  Future<Either<Failure, List<IncomingItemEntity>>> getIncomingItem() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.getIncomingItem();
-        // `result` adalah HomeModel
-        return Right(result.toEntity()); // Karena HomeModel EXTENDS HomeEntity
+        final models = await remoteDataSource.getIncomingItem();
+        final List<IncomingItemEntity> entities =
+            models.map((model) => model.toEntity()).toList();
+        return Right(entities); // Return List<Entity>
       } on BadRequestException catch (e) {
         return Left(BadRequestFailure(e.toString()));
       } on UnauthorisedException catch (e) {

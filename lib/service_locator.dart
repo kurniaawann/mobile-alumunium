@@ -2,10 +2,13 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mobile_alumunium/features/data/datasources/authentication/authentication_remote_data_soruce.dart';
 import 'package:mobile_alumunium/features/data/datasources/home/home_remote_data_sorce.dart';
+import 'package:mobile_alumunium/features/data/datasources/incoming_item/incoming_item_remote_data_source.dart';
 import 'package:mobile_alumunium/features/data/repositories/authentication/authentication_repository_impl.dart';
 import 'package:mobile_alumunium/features/data/repositories/home/home_repository_impl.dart';
+import 'package:mobile_alumunium/features/data/repositories/incoming_item/incoming_repository_impl.dart';
 import 'package:mobile_alumunium/features/domain/repositories/authentication/authentication_repository.dart';
 import 'package:mobile_alumunium/features/domain/repositories/home/home_repository.dart';
+import 'package:mobile_alumunium/features/domain/repositories/incoming_Item/incoming_Item_repository.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/forgot_password.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/login.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/register.dart';
@@ -13,6 +16,7 @@ import 'package:mobile_alumunium/features/domain/usecase/authentication/send_ema
 import 'package:mobile_alumunium/features/domain/usecase/authentication/user_verification.dart';
 import 'package:mobile_alumunium/features/domain/usecase/authentication/verification_forgot_password.dart';
 import 'package:mobile_alumunium/features/domain/usecase/home/home.dart';
+import 'package:mobile_alumunium/features/domain/usecase/incoming_item/incoming_item.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/forgot_password_controller.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/login_controller.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/register_controller.dart';
@@ -20,6 +24,7 @@ import 'package:mobile_alumunium/features/presentation/getx/authentication/send_
 import 'package:mobile_alumunium/features/presentation/getx/authentication/user_verification_controller.dart';
 import 'package:mobile_alumunium/features/presentation/getx/authentication/verification_forgot_password_controller.dart';
 import 'package:mobile_alumunium/features/presentation/getx/home/home_controller.dart';
+import 'package:mobile_alumunium/features/presentation/getx/incoming_item/incoming_item_controller.dart';
 import 'package:mobile_alumunium/managers/dio_loging_inceptors.dart';
 import 'package:mobile_alumunium/managers/managers.dart';
 import 'package:mobile_alumunium/managers/network_info.dart';
@@ -66,6 +71,11 @@ Future<void> initDependencyInjection() async {
       httpManager: serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton<IncomingItemRemoteDataSource>(
+    () => IncomingItemRemoteDataSourceImpl(
+      httpManager: serviceLocator(),
+    ),
+  );
 
   //! Repository
   serviceLocator.registerLazySingleton<AuthenticationRepository>(
@@ -78,6 +88,12 @@ Future<void> initDependencyInjection() async {
         remoteDataSource: serviceLocator(),
         networkInfo: serviceLocator(),
       ));
+
+  serviceLocator.registerLazySingleton<IncomingItemRepository>(
+      () => IncomingRepositoryImpl(
+            remoteDataSource: serviceLocator(),
+            networkInfo: serviceLocator(),
+          ));
 
   //! use cases
   serviceLocator.registerLazySingleton(
@@ -115,6 +131,11 @@ Future<void> initDependencyInjection() async {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerLazySingleton(
+    () => IncomingItemUseCase(
+      serviceLocator(),
+    ),
+  );
 
   //! Controllers
   serviceLocator.registerLazySingleton(
@@ -141,5 +162,8 @@ Future<void> initDependencyInjection() async {
   );
   serviceLocator.registerLazySingleton(
     () => HomeController(homeUseCase: serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton(
+    () => IncomingItemController(incomingItemUseCase: serviceLocator()),
   );
 }

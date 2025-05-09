@@ -1,41 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
-import 'package:mobile_alumunium/common/widgets/custom_info_item.dart';
 import 'package:mobile_alumunium/features/domain/entities/incoming_item/incoming_item.dart';
+import 'package:mobile_alumunium/features/presentation/getx/incoming_item/incoming_item_controller.dart';
+import 'package:mobile_alumunium/features/presentation/pages/incoming_item_pages/widgets/incomng_item_body.dart';
+import 'package:mobile_alumunium/service_locator.dart';
 
-class IncomingItemPage extends StatelessWidget {
-  final List<IncomingItemEntity> dummyItems = [
-    IncomingItemEntity(
-      incomingItemsId: '1',
-      itemId: '101',
-      quantity: 50,
-      receivedBy: 'John Doe',
-      priceIncomingItem: 1250000,
-      createdAt: DateTime.now().subtract(const Duration(days: 2)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    IncomingItemEntity(
-      incomingItemsId: '2',
-      itemId: '102',
-      quantity: 120,
-      receivedBy: 'Jane Smith',
-      priceIncomingItem: 2750000,
-      createdAt: DateTime.now().subtract(const Duration(days: 5)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    IncomingItemEntity(
-      incomingItemsId: '3',
-      itemId: '103',
-      quantity: 75,
-      receivedBy: 'Robert Johnson',
-      priceIncomingItem: 1850000,
-      createdAt: DateTime.now().subtract(const Duration(days: 1)),
-      updatedAt: DateTime.now(),
-    ),
-  ];
+class IncomingItemPage extends StatefulWidget {
+  const IncomingItemPage({super.key});
 
-  IncomingItemPage({super.key});
+  @override
+  State<IncomingItemPage> createState() => _IncomingItemPageState();
+}
+
+class _IncomingItemPageState extends State<IncomingItemPage> {
+  final IncomingItemController incomingItemController =
+      serviceLocator<IncomingItemController>();
+
+  @override
+  void initState() {
+    incomingItemController.getDataIncomingItem();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +37,6 @@ class IncomingItemPage extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: AppColors.scaffoldBackground,
         actions: [
           IconButton(
             icon: Icon(Icons.add, color: AppColors.primaryColor),
@@ -60,108 +44,29 @@ class IncomingItemPage extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor: AppColors.scaffoldBackground,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: dummyItems.length,
-          itemBuilder: (context, index) {
-            final item = dummyItems[index];
-            return _buildIncomingItemCard(item, context);
-          },
-        ),
-      ),
-    );
-  }
+      body: Obx(() {
+        switch (incomingItemController.state) {
+          case RequestState.loading:
+            return const Center(child: CircularProgressIndicator());
+          case RequestState.loaded:
+            final incomingItem = incomingItemController.incomingItemList;
 
-  Widget _buildIncomingItemCard(IncomingItemEntity item, BuildContext context) {
-    final theme = Theme.of(context);
-    final currencyFormat = NumberFormat.currency(
-      locale: 'id_ID',
-      symbol: 'Rp',
-      decimalDigits: 0,
-    );
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header with actions
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'Barang Masuk',
-                  style: theme.textTheme.labelLarge?.copyWith(
-                    color: AppColors.primaryColor,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-                // _buildActionMenu(item, context),
-              ],
-            ),
-            const SizedBox(height: 15),
-
-            // Main content
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomInfoItem(
-                  icon: Icons.inventory,
-                  title: 'Jumlah',
-                  value: '${item.quantity} pcs',
-                  color: AppColors.primaryColor,
-                ),
-                CustomInfoItem(
-                  icon: Icons.person,
-                  title: 'Diterima oleh',
-                  value: item.receivedBy,
-                  color: AppColors.infoColor,
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomInfoItem(
-                  icon: Icons.attach_money,
-                  title: 'Total Harga',
-                  value: currencyFormat.format(item.priceIncomingItem),
-                  color: AppColors.successColor,
-                ),
-                CustomInfoItem(
-                  icon: Icons.calendar_today,
-                  title: 'Diterima',
-                  value: DateFormat('dd MMM yyyy').format(item.createdAt),
-                  color: AppColors.warningColor,
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 12),
-            Divider(
-              height: 2,
-              color: AppColors.navBarUnselectedItem,
-            ),
-            const SizedBox(height: 8),
-
-            // Footer
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'Updated: ${DateFormat('dd MMM yyyy HH:mm').format(item.updatedAt)}',
-                  style: theme.textTheme.bodySmall?.copyWith(),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: incomingItem.length,
+              itemBuilder: (context, index) {
+                final item = incomingItem[index];
+                return IncomngItemBody(incomingItemEntity: item);
+              },
+            );
+          case RequestState.error:
+            return Center(child: Text(incomingItemController.message.value));
+          case RequestState.empty:
+            return const Center(child: Text('No data loaded yet'));
+          case RequestState.success: // optional kalau pakai success
+            return const Center(child: Text('Operation successful'));
+        }
+      }),
     );
   }
 

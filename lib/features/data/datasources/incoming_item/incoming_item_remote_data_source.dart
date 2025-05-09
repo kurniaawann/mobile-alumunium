@@ -3,7 +3,7 @@ import 'package:mobile_alumunium/features/data/models/incoming_item/incoming_ite
 import 'package:mobile_alumunium/managers/managers.dart';
 
 abstract class IncomingItemRemoteDataSource {
-  Future<IncomingItemResponse> getIncomingItem();
+  Future<List<IncomingItemResponse>> getIncomingItem();
 }
 
 class IncomingItemRemoteDataSourceImpl implements IncomingItemRemoteDataSource {
@@ -12,11 +12,13 @@ class IncomingItemRemoteDataSourceImpl implements IncomingItemRemoteDataSource {
   final HttpManager httpManager;
 
   @override
-  Future<IncomingItemResponse> getIncomingItem() async {
+  Future<List<IncomingItemResponse>> getIncomingItem() async {
     final response = await httpManager.get(url: 'incoming-item/all');
 
     if (response.statusCode == 200) {
-      return IncomingItemResponse.fromJson(response.data);
+      return List<Map<String, dynamic>>.from(response.data ?? [])
+          .map(IncomingItemResponse.fromJson)
+          .toList();
     } else {
       throw ServerException();
     }

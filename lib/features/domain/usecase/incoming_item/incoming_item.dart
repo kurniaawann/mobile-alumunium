@@ -6,7 +6,7 @@ import 'package:mobile_alumunium/features/domain/repositories/incoming_Item/inco
 class IncomingItemUseCase {
   final IncomingItemRepository repository;
   IncomingItemUseCase(this.repository);
-  Future<Either<Failure, IncomingItemEntity>> execute() {
+  Future<Either<Failure, List<IncomingItemEntity>>> execute() {
     return repository.getIncomingItem();
   }
 }
