@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
@@ -31,6 +33,7 @@ class _PaginatedDropdownState extends State<PaginatedDropdown> {
   OverlayEntry? _overlayEntry;
   bool _isDropdownOpen = false;
   final ScrollController _scrollController = ScrollController();
+  Timer? _searchDebounce; // Tambahkan debounce timer
 
   @override
   void initState() {
@@ -50,11 +53,27 @@ class _PaginatedDropdownState extends State<PaginatedDropdown> {
     super.dispose();
   }
 
+  void _handleSearch(String value) {
+    _searchDebounce?.cancel(); // Cancel previous timer
+
+    _searchDebounce = Timer(const Duration(milliseconds: 500), () {
+      if (value != widget.controller.searchQuery.value) {
+        widget.controller.setSearchQuery(value);
+        widget.controller.getDataDropdownItem(value, 1, reset: true);
+      }
+    });
+  }
+
   void _onFocusChange() {
-    if (!_focusNode.hasFocus && _searchController.text.isNotEmpty) {
-      widget.controller.searchQuery.value = _searchController.text;
-      widget.controller
-          .getDataDropdownItem(_searchController.text, 1, reset: true);
+    // if (!_focusNode.hasFocus && _searchController.text.isNotEmpty) {
+    //   widget.controller.searchQuery.value = _searchController.text;
+    //   widget.controller.getDataDropdownItem(
+    //       _searchController.text, widget.controller.currentPage.value,
+    //       reset: false);
+    // }
+    if (!_focusNode.hasFocus) {
+      // Kirim pencarian terakhir saat kehilangan fokus
+      _handleSearch(_searchController.text);
     }
   }
 
@@ -116,9 +135,7 @@ class _PaginatedDropdownState extends State<PaginatedDropdown> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onChanged: (value) {
-                        widget.controller.setSearchQuery(value);
-                      },
+                      onChanged: _handleSearch,
                     ),
                   ),
 

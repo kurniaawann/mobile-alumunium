@@ -63,7 +63,7 @@ class DropdownItemController extends GetxController {
 
   void resetState() {
     currentPage.value = 1;
-    dropdownItemList.clear();
+    // dropdownItemList.clear();
     searchQuery.value = '';
     hasMore.value = true;
     isLoading.value = false;
