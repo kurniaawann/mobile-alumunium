@@ -8,7 +8,7 @@ class CustomTextfield extends StatefulWidget {
     this.iconData,
     this.onIconPressed,
     this.isPassword = false,
-    required this.formKey,
+    this.formKey,
     this.validator,
     this.enabled,
     required this.textEditingController,
@@ -18,7 +18,7 @@ class CustomTextfield extends StatefulWidget {
   final Widget? iconData;
   final VoidCallback? onIconPressed;
   final bool isPassword;
-  final GlobalKey<FormState> formKey;
+  final GlobalKey<FormState>? formKey;
   final String? Function(String?)? validator;
   final TextEditingController textEditingController;
   final bool? enabled;
