@@ -7,6 +7,7 @@ abstract class RouteName {
   static const homePage = '/HomePage';
   static const incomingItemPage = '/IncomingItemPage';
   static const outgoingItemPage = '/OutgoingItemPage';
+  static const createIncomingItemPage = '/CreateIncomingItemPage';
   // static const detailInformasi = '/DetailInformasi';
   // static const customerReview = '/customerReview';
   // static const search = '/search';

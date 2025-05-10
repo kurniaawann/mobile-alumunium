@@ -4,6 +4,7 @@ import 'package:mobile_alumunium/features/presentation/pages/authentication_page
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/otp_textfield_page.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/register_page.dart';
 import 'package:mobile_alumunium/features/presentation/pages/authentication_pages/send_email_verification_page.dart';
+import 'package:mobile_alumunium/features/presentation/pages/incoming_item_pages/create_incoming_item_page.dart';
 import 'package:mobile_alumunium/features/presentation/pages/main_page.dart';
 import 'package:mobile_alumunium/routes/route_name.dart';
 
@@ -20,6 +21,10 @@ class Myroute {
     GetPage(
       name: RouteName.changePassword,
       page: () => const ChangePasswordPage(),
+    ),
+    GetPage(
+      name: RouteName.createIncomingItemPage,
+      page: () => const CreateIncomingItemPage(),
     ),
   ];
 }
