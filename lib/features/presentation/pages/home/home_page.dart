@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
+import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/features/presentation/getx/cache_local/cache.dart';
 import 'package:mobile_alumunium/features/presentation/getx/home/home_controller.dart';
 import 'package:mobile_alumunium/features/presentation/pages/home/widgets/home_body.dart';
@@ -26,7 +27,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text(
+          'Home',
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w700,
+              ),
+        ),
         leading: IconButton(
           onPressed: () {
             TokenStorage.clearUserToken();
