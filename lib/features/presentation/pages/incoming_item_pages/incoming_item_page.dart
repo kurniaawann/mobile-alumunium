@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:mobile_alumunium/common/status_enum/state_enum.dart';
 import 'package:mobile_alumunium/common/theme/app_colors.dart';
 import 'package:mobile_alumunium/features/domain/entities/incoming_item/incoming_item.dart';
 import 'package:mobile_alumunium/features/presentation/getx/incoming_item/incoming_item_controller.dart';
 import 'package:mobile_alumunium/features/presentation/pages/incoming_item_pages/widgets/incomng_item_body.dart';
+import 'package:mobile_alumunium/routes/route_name.dart';
 import 'package:mobile_alumunium/service_locator.dart';
 
 class IncomingItemPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _IncomingItemPageState extends State<IncomingItemPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Incoming Items',
+          'Barang Masuk',
           style: theme.textTheme.headlineSmall?.copyWith(
             color: AppColors.textPrimary,
             fontWeight: FontWeight.w700,
@@ -40,7 +41,7 @@ class _IncomingItemPageState extends State<IncomingItemPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.add, color: AppColors.primaryColor),
-            onPressed: () => _addNewItem(context),
+            onPressed: () => Get.toNamed(RouteName.createIncomingItemPage),
           ),
         ],
       ),
