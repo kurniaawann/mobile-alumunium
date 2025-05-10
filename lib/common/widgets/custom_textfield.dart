@@ -10,6 +10,7 @@ class CustomTextfield extends StatefulWidget {
     this.isPassword = false,
     required this.formKey,
     this.validator,
+    this.enabled,
     required this.textEditingController,
   });
 
@@ -20,6 +21,7 @@ class CustomTextfield extends StatefulWidget {
   final GlobalKey<FormState> formKey;
   final String? Function(String?)? validator;
   final TextEditingController textEditingController;
+  final bool? enabled;
 
   @override
   State<CustomTextfield> createState() => _CustomTextfieldState();
@@ -32,6 +34,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
     return Form(
       key: widget.formKey,
       child: TextFormField(
+        enabled: widget.enabled,
         controller: widget.textEditingController,
         validator: widget.validator,
         obscureText: widget.isPassword && !_isPasswordVisible,
