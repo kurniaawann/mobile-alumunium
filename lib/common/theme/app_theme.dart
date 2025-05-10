@@ -84,7 +84,7 @@ class AppTheme {
         textStyle: base.textTheme.bodyMedium?.copyWith(
           fontWeight: FontWeight.w700,
         ),
-        backgroundColor: base.colorScheme.primary,
+        backgroundColor: AppColors.primaryColor,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       ),
     );
